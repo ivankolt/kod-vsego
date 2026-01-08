@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель — Код Всего</title>
+    <link rel="stylesheet" href="/src/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Отключаем начальную прозрачность для элементов админки */
+    #admin-dashboard .tab-content div {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    
+    /* Стили для скроллбара, чтобы вкладки не выглядели обрезанными */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+        /* Дополнительные стили для полей ввода, чтобы не дублировать классы */
+        .admin-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: #141823;
+            border-radius: 1rem;
+            border: 1px solid #374151;
+            /* gray-700 */
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .admin-input:focus {
+            border-color: #00aeef;
+            /* Brand Blue */
+            box-shadow: 0 0 0 2px rgba(0, 174, 239, 0.2);
+        }
+
+        .tab-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+
+<body class="bg-[#141823] text-white min-h-screen font-sans">
+
+    <div id="login-block" class="flex items-center justify-center min-h-screen px-6">
+        <div class="bg-[#1c212e] p-8 md:p-10 rounded-[32px] shadow-2xl border border-gray-800 w-full max-w-md">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold">Вход в <span class="text-brand-blue">Систему</span></h1>
+                <p class="text-gray-400 mt-2">Только для администраторов</p>
+            </div>
+
+            <div class="space-y-4">
+                <input type="email" id="email" placeholder="Email" class="admin-input">
+                <input type="password" id="password" placeholder="Пароль" class="admin-input">
+                <button id="login-btn"
+                    class="w-full py-4 bg-brand-blue hover:bg-opacity-80 rounded-2xl font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg shadow-blue-500/20">
+                    Войти в панель
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-dashboard" class="hidden container mx-auto px-6 py-10">
+
+        <header
+            class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6 bg-[#1c212e]/50 p-6 rounded-[24px] border border-gray-800 backdrop-blur-md">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tight">Панель <span class="text-brand-blue">Управления</span>
+                </h1>
+                <p class="text-gray-400 mt-1">Добро пожаловать обратно, админ</p>
+            </div>
+            <button id="logout-btn"
+                class="px-8 py-3 border border-red-500/50 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all font-bold">
+                Выйти из сессии
+            </button>
+        </header>
+
+        <div class="flex gap-3 mb-12 overflow-x-auto pb-4 no-scrollbar">
+            <button onclick="showTab('offers')"
+                class="tab-btn px-8 py-4 rounded-2xl font-bold bg-brand-blue whitespace-nowrap shadow-lg shadow-blue-500/20">
+                Предложения
+            </button>
+            <button onclick="showTab('products')"
+                class="tab-btn px-8 py-4 rounded-2xl font-bold bg-[#1c212e] border border-gray-800 hover:border-brand-blue whitespace-nowrap">
+                Товары
+            </button>
+            <button onclick="showTab('projects')"
+                class="tab-btn px-8 py-4 rounded-2xl font-bold bg-[#1c212e] border border-gray-800 hover:border-brand-blue whitespace-nowrap">
+                Проекты
+            </button>
+            <button onclick="showTab('settings')"
+                class="tab-btn px-8 py-4 rounded-2xl font-bold bg-[#1c212e] border border-gray-800 hover:border-brand-blue whitespace-nowrap">
+                Настройки
+            </button>
+        </div>
+
+        <div class="space-y-12">
+
+            <section id="tab-offers" class="tab-content">
+                <div class="grid gap-6" id="offers-container">
+                </div>
+            </section>
+
+            <section id="tab-settings" class="tab-content hidden animate-fade-in">
+                <div class="bg-[#1c212e] p-8 rounded-[32px] border border-gray-800 max-w-2xl mx-auto shadow-xl">
+                    <h3 class="text-2xl font-bold mb-8 text-brand-blue flex items-center gap-3">
+                        Глобальные контакты
+                    </h3>
+                    <form id="settings-form" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-gray-500 ml-4">Telegram
+                                Link</label>
+                            <input name="tg_link" placeholder="https://t.me/..." class="admin-input">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-gray-500 ml-4">YouTube
+                                Link</label>
+                            <input name="yt_link" placeholder="https://youtube.com/..." class="admin-input">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-gray-500 ml-4">Контактный
+                                Email</label>
+                            <input name="email_contact" placeholder="admin@example.com" class="admin-input">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-4 bg-green-600 hover:bg-green-500 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-green-500/20">
+                            Сохранить все изменения
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="tab-products" class="tab-content hidden animate-fade-in">
+                <div class="bg-[#1c212e] p-8 rounded-[32px] mb-12 border border-gray-800 shadow-xl">
+                    <h3 class="text-2xl font-bold mb-8 text-brand-blue">Добавить новый товар в магазин</h3>
+                    <form id="add-product-form" class="grid md:grid-cols-2 gap-6">
+                        <input name="title" placeholder="Название товара" required class="admin-input">
+                        <input name="price" type="number" placeholder="Цена (руб)" required class="admin-input">
+                        <input name="category" placeholder="Категория" required class="admin-input">
+                        <input name="shop_link" placeholder="Ссылка на Авито / Магазин" class="admin-input">
+
+                        <div
+                            class="md:col-span-2 bg-[#141823] p-6 rounded-2xl border border-dashed border-gray-700 hover:border-brand-blue transition-colors">
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Изображение товара</label>
+                            <input type="file" name="image_file" accept="image/*" required
+                                class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-blue file:text-white hover:file:bg-opacity-80 cursor-pointer">
+                        </div>
+
+                        <textarea name="description" placeholder="Подробное описание товара..."
+                            class="admin-input md:col-span-2 h-40 resize-none"></textarea>
+
+                        <button type="submit"
+                            class="md:col-span-2 py-4 bg-green-600 hover:bg-green-500 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-green-500/20">
+                            Опубликовать товар
+                        </button>
+                    </form>
+                </div>
+                <div id="products-admin-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+            </section>
+
+            <section id="tab-projects" class="tab-content hidden animate-fade-in">
+                <div class="bg-[#1c212e] p-8 rounded-[32px] mb-12 border border-gray-800 shadow-xl">
+                    <h3 class="text-2xl font-bold mb-8 text-brand-blue">Регистрация нового проекта</h3>
+                    <form id="add-project-form" class="grid md:grid-cols-2 gap-6">
+                        <input name="title" placeholder="Название проекта" required class="admin-input">
+                        <input name="link" placeholder="Ссылка (GitHub / Demo)" class="admin-input">
+
+                        <textarea name="description" placeholder="Описание технологического стека и задач..."
+                            class="admin-input md:col-span-2 h-40 resize-none"></textarea>
+
+                        <button type="submit"
+                            class="md:col-span-2 py-4 bg-brand-blue hover:bg-opacity-80 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-blue-500/20">
+                            Добавить в портфолио
+                        </button>
+                    </form>
+                </div>
+                <div id="projects-admin-list" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script type="module" src="/src/js/admin.js"></script>
+</body>
+
+</html>

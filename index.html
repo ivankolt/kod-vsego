@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Код Всего — Технологии и Инновации</title>
+  <link rel="stylesheet" href="/src/css/style.css">
+</head>
+
+<body>
+  <div id="cursor-glow" class="cursor-glow"></div>
+  <canvas id="matrix-canvas"></canvas>
+  <div id="app">
+    <header class="fixed w-full z-50 backdrop-blur-md bg-white/70 border-b border-gray-100">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold flex items-center gap-1">
+          <span>Код</span><span class="text-brand-blue">Всего</span>
+        </div>
+        <nav class="hidden md:flex gap-8 font-medium text-sm uppercase tracking-wider">
+          <a href="#about" class="hover:text-brand-blue transition">О нас</a>
+          <a href="#products" class="hover:text-brand-blue transition">Товары</a>
+          <a href="#projects" class="hover:text-brand-blue transition">Проекты</a>
+          <a href="#offers" class="hover:text-brand-blue transition">Предложения</a>
+          <a href="#ai-chat" id="nav-chat-link" class="hover:text-brand-blue transition">Чатик ИИ</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="h-screen flex items-center justify-center text-center px-6 pt-20">
+      <div class="fade-in" id="hero-content">
+        <h1 class="text-6xl md:text-8xl font-bold mb-6 tracking-tighter">
+          <span class="text-white">Код</span> <span class="gradient-text">Всего</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto font-light">
+          Технологии, проекты, инновации.
+        </p>
+      </div>
+    </section>
+
+    <section id="about" class="py-24 bg-white overflow-hidden relative z-10">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+          <div class="fade-in">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 tracking-tight">
+              Мы создаем <span class="text-brand-blue">цифровую экосистему</span>
+            </h2>
+            <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+              «Код Всего» — это команда разработчиков, дизайнеров и визионеров. Мы работаем полностью удаленно, создавая
+              инструменты, которые помогают людям расти в цифровой среде.
+            </p>
+
+            <div class="space-y-6 mb-10">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-brand-blue"><i
+                    data-lucide="mail"></i></div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Пишите нам</p>
+                  <p class="font-medium text-lg">va.koltsov@mail.ru</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-500">
+                  <span class="relative flex h-3 w-3">
+                    <span
+                      class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  </span>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Статус</p>
+                  <p class="font-medium text-lg">Всегда на связи (Online)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <a href="#"
+                class="w-12 h-12 border border-gray-100 rounded-2xl flex items-center justify-center hover:bg-brand-blue/5 transition-all"><i
+                  data-lucide="github"></i></a>
+              <a href="#"
+                class="w-12 h-12 border border-gray-100 rounded-2xl flex items-center justify-center hover:bg-brand-blue/5 transition-all"><i
+                  data-lucide="send"></i></a>
+            </div>
+          </div>
+
+          <div class="relative fade-in floating-box">
+            <div class="aspect-square bg-white rounded-[40px] flex items-center justify-center p-8 relative shadow-2xl">
+              <img src="/src/assets/_icon.jpg" class="w-full h-full object-contain relative z-10" alt="Код Всего">
+            </div>
+            <a href="https://t.me/Privatnumber5" target="_blank"
+              class="absolute -bottom-6 -right-6 md:right-10 bg-brand-dark text-white px-8 py-6 rounded-3xl font-bold shadow-2xl hover:bg-brand-blue transition-all flex items-center gap-3">
+              Написать в Telegram <i data-lucide="send"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="py-24 bg-gray-50">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Наши <span class="text-brand-blue">Товары</span>
+        </h2>
+        <div id="product-grid" class="grid md:grid-cols-4 gap-6">
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="py-24 bg-white">
+      <div class="container mx-auto px-6">
+
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Наши <span
+              class="text-brand-blue">Проекты</span></h2>
+          <p class="text-gray-500 max-w-2xl mx-auto text-lg font-light">
+            Эксперименты с кодом, полезные утилиты и масштабные цифровые продукты, созданные командой «Код Всего».
+          </p>
+        </div>
+
+        <div id="projects-grid" class="grid md:grid-cols-2 gap-8">
+        </div>
+
+        <div class="mt-16 text-center fade-in">
+          <a href="https://github.com/TotalCode" target="_blank"
+            class="inline-flex items-center gap-2 text-brand-dark font-bold hover:text-brand-blue transition-colors group">
+            Смотреть все репозитории на GitHub
+            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="offers" class="py-24 bg-gray-50">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto bg-white rounded-[40px] p-8 md:p-16 shadow-sm border border-gray-100">
+
+          <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4 tracking-tight">Есть <span class="text-brand-blue">Предложение?</span>
+            </h2>
+            <p class="text-gray-500 text-lg font-light">Оставьте свои данные, и мы обсудим вашу идею или проект.</p>
+          </div>
+
+          <form id="contact-form" class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-2 text-left">
+                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Имя</label>
+                <input type="text" name="first_name" required placeholder="Иван"
+                  class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-brand-blue transition-all outline-none">
+              </div>
+              <div class="space-y-2 text-left">
+                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Фамилия</label>
+                <input type="text" name="last_name" required placeholder="Иванов"
+                  class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-brand-blue transition-all outline-none">
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-2 text-left">
+                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Email</label>
+                <input type="email" name="email" required placeholder="example@mail.ru"
+                  class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-brand-blue transition-all outline-none">
+              </div>
+              <div class="space-y-2 text-left">
+                <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Телефон
+                  (опционально)</label>
+                <input type="tel" name="phone"
+                  class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-brand-blue transition-all outline-none"
+                  placeholder="+7 (___) ___-__-__">
+              </div>
+            </div>
+
+            <div class="space-y-2 text-left">
+              <label class="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Ваше предложение</label>
+              <textarea name="message" required rows="4" placeholder="Привет! Хочу предложить вам проект..."
+                class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-brand-blue transition-all outline-none resize-none"></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn"
+              class="w-full py-6 bg-brand-dark text-white rounded-3xl font-bold text-lg hover:bg-brand-blue transition-all shadow-xl shadow-brand-blue/10 flex items-center justify-center gap-3">
+              Отправить предложение <i data-lucide="send"></i>
+            </button>
+          </form>
+
+          <div id="form-success" class="hidden text-center space-y-4">
+            <div
+              class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i data-lucide="check" class="w-10 h-10"></i>
+            </div>
+            <h3 class="text-2xl font-bold">Спасибо!</h3>
+            <p class="text-gray-500">Ваше сообщение успешно отправлено. Мы скоро свяжемся с вами.</p>
+            <button onclick="location.reload()" class="text-brand-blue font-bold hover:underline">Отправить еще
+              одно</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="/src/js/main.js"></script>
+
+  <button id="chat-toggle"
+    class="fixed bottom-6 right-6 w-16 h-16 bg-brand-blue text-white rounded-full shadow-2xl z-[100] flex items-center justify-center hover:scale-110 transition-all duration-300 group">
+    <i data-lucide="message-square" class="group-hover:hidden"></i>
+    <i data-lucide="chevron-down" class="hidden group-hover:block"></i>
+  </button>
+
+  <div id="chat-window"
+    class="fixed bottom-24 right-6 w-[350px] h-[500px] bg-white rounded-[32px] shadow-3xl border border-gray-100 z-[100] hidden flex-col overflow-hidden">
+
+    <div id="chat-header" class="bg-brand-dark p-6 text-white flex items-center gap-4">
+      <div class="w-10 h-10 bg-brand-blue rounded-2xl flex items-center justify-center">
+        <i data-lucide="bot" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <p class="font-bold text-sm">Код Всего ИИ</p>
+        <p class="text-[10px] text-brand-blue font-bold uppercase tracking-widest">Online (Перетащи меня)</p>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/50">
+    <div class="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-600 max-w-[85%]">
+      Привет! Я помощник «Код Всего». Чем могу помочь?
+    </div>
+  </div>
+
+  <form id="chat-form" class="p-4 bg-white border-t border-gray-100 flex gap-2">
+    <input type="text" id="chat-input" placeholder="Задай вопрос..." autocomplete="off"
+      class="flex-1 px-4 py-3 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-brand-blue outline-none transition-all">
+    <button type="submit" class="bg-brand-blue text-white p-3 rounded-xl hover:bg-brand-dark transition-all">
+      <i data-lucide="send" class="w-5 h-5"></i>
+    </button>
+  </form>
+  </div>
+</body>
+
+</html>
