@@ -251,6 +251,35 @@
     </button>
   </form>
   </div>
+
+  <div id="product-modal" class="fixed inset-0 z-[110] hidden bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-[40px] max-w-2xl w-full p-8 md:p-12 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+      <button id="close-modal" class="absolute top-6 right-6 text-gray-400 hover:text-brand-dark transition-colors">
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+      <div id="modal-content">
+        </div>
+    </div>
+  </div>
+
+  <div id="chat-window" class="fixed bottom-24 right-6 w-[350px] h-[500px] bg-white rounded-[32px] shadow-3xl border border-gray-100 z-[100] hidden flex-col overflow-hidden">
+    <div id="chat-header" class="bg-brand-dark p-6 text-white flex items-center gap-4 cursor-move">
+      <div class="w-10 h-10 bg-brand-blue rounded-2xl flex items-center justify-center">
+        <i data-lucide="bot" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <p class="font-bold text-sm">Код Всего ИИ</p>
+        <p class="text-[10px] text-brand-blue font-bold uppercase tracking-widest">Online (Перетащи меня)</p>
+      </div>
+    </div>
+    <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/50"></div>
+    <form id="chat-form" class="p-4 bg-white border-t border-gray-100 flex gap-2">
+      <input type="text" id="chat-input" placeholder="Задай вопрос..." class="flex-1 px-4 py-3 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+      <button type="submit" class="bg-brand-blue text-white p-3 rounded-xl hover:bg-brand-dark">
+        <i data-lucide="send" class="w-5 h-5"></i>
+      </button>
+    </form>
+  </div>
 </body>
 
 </html>
