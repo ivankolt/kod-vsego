@@ -41,10 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     createIcons({ icons: iconConfig });
     initMatrixAnimation();
-    // 2. Выбор элементов
-   
-    
-
+    // 2. Выбор элемент
     window.addEventListener('mousemove', (e) => {
         if (glow) {
             glow.style.left = e.clientX + 'px';
@@ -54,32 +51,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         await Promise.all([
-            applySiteSettings(),   // Загрузка контактов
-            loadProductsData(),    // Загрузка и рендер товаров
-            loadProjectsData()     // Загрузка и рендер проектов
+            applySiteSettings(), // Загрузка контактов
+            loadProductsData(),  // Загрузка товаров
+            loadProjectsData()   // Загрузка проектов
         ]);
         
-        // После загрузки данных запускаем анимации появления
+        // После загрузки всех данных запускаем анимации
         initScrollReveal();
         if (hero) hero.classList.add('visible');
     } catch (e) {
-        console.error("Ошибка при параллельной загрузке данных:", e);
+        console.error("Ошибка при параллельной загрузке:", e);
     }
 
     async function loadProductsData() {
         if (!productGrid) return;
         allProducts = await getProducts();
         productGrid.innerHTML = allProducts.map(p => createProductCard(p)).join('');
-        createIcons({ icons: iconConfig }); // Обновляем иконки в карточках
+        createIcons({ icons: iconConfig }); // Рисуем иконки в карточках
     }
 
     async function loadProjectsData() {
         if (!projectsGrid) return;
         const projects = await getProjects();
         projectsGrid.innerHTML = projects.map(p => createProjectCard(p)).join('');
-        createIcons({ icons: iconConfig }); // Обновляем иконки в проектах
+        createIcons({ icons: iconConfig }); // Рисуем иконки в проектах
     }
-
+    
     if (closeModalBtn && modal) {
         closeModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
@@ -259,7 +256,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (e) { console.error(e); }
     }
 
-    const hero = document.getElementById('hero-content');
     if (hero) setTimeout(() => hero.classList.add('visible'), 100);
 });
 
