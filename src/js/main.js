@@ -19,18 +19,14 @@ let allProducts = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Инициализация иконок
-
-    createIcons({ icons: iconConfig });
-    // 2. Выбор элементов
+    
     const productGrid = document.getElementById('product-grid');
     const modalContent = document.getElementById('modal-content');
     const closeModalBtn = document.getElementById('close-modal');
     const contactForm = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
 
-    await applySiteSettings();
-
-    // Элементы чата
+        // Элементы чата
     const chatToggle = document.getElementById('chat-toggle');
     const chatWindow = document.getElementById('chat-window');
     const chatHeader = document.getElementById('chat-header'); // Добавлено!
@@ -41,14 +37,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     const glow = document.getElementById('cursor-glow');
 
     const modal = document.getElementById('product-modal');
+    createIcons({ icons: iconConfig });
+    initMatrixAnimation();
+    // 2. Выбор элементов
+   
+    
+
+    window.addEventListener('mousemove', (e) => {
+        if (glow) {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        }
+    });
+
+    try {
+        await Promise.all([
+            applySiteSettings(),   // Загрузка контактов
+            loadProductsData(),    // Загрузка и рендер товаров
+            loadProjectsData()     // Загрузка и рендер проектов
+        ]);
+        
+        // После загрузки данных запускаем анимации появления
+        initScrollReveal();
+        if (hero) hero.classList.add('visible');
+    } catch (e) {
+        console.error("Ошибка при параллельной загрузке данных:", e);
+    }
+
+    async function loadProductsData() {
+        if (!productGrid) return;
+        allProducts = await getProducts();
+        productGrid.innerHTML = allProducts.map(p => createProductCard(p)).join('');
+        createIcons({ icons: iconConfig }); // Обновляем иконки в карточках
+    }
+
+    async function loadProjectsData() {
+        if (!projectsGrid) return;
+        const projects = await getProjects();
+        projectsGrid.innerHTML = projects.map(p => createProjectCard(p)).join('');
+        createIcons({ icons: iconConfig }); // Обновляем иконки в проектах
+    }
 
     if (closeModalBtn && modal) {
         closeModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         });
-    
-        // Закрытие при клике на темный фон
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.add('hidden');
@@ -56,14 +90,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-
-    // --- ЛОГИКА СВЕЧЕНИЯ КУРСОРA ---
-    window.addEventListener('mousemove', (e) => {
-        if (glow) {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-        }
-    });
 
     // --- ПЕРЕТАСКИВАНИЕ ЧАТА (DRAGGING) ---
     if (chatHeader && chatWindow) {
@@ -109,33 +135,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    chatToggle.addEventListener('click', () => {
-        chatWindow.classList.toggle('hidden');
-        chatWindow.classList.toggle('flex');
-    });
+    if (chatToggle && chatWindow) {
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('hidden');
+            chatWindow.classList.toggle('flex');
+        });
+    }
 
-    chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const text = chatInput.value.trim();
-        if (!text) return;
+    const chatForm = document.getElementById('chat-form');
+    if (chatForm) {
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const chatInput = document.getElementById('chat-input');
+            const text = chatInput.value.trim();
+            if (!text) return;
 
-        addMessage(text, 'user');
-        chatInput.value = '';
-        showTypingIndicator();
+            addMessage(text, 'user');
+            chatInput.value = '';
+            showTypingIndicator();
 
-        try {
-            const { data, error } = await supabase.functions.invoke('ai-chat', {
-                body: { message: text }
-            });
-            document.getElementById('typing-indicator')?.remove();
-            if (error) throw error;
-            addMessage(data.reply, 'bot');
-        } catch (err) {
-            document.getElementById('typing-indicator')?.remove();
-            addMessage('Ошибка связи с ИИ.', 'bot');
-        }
-    });
-
+            try {
+                const { data, error } = await supabase.functions.invoke('ai-chat', {
+                    body: { message: text }
+                });
+                document.getElementById('typing-indicator')?.remove();
+                if (error) throw error;
+                addMessage(data.reply, 'bot');
+            } catch (err) {
+                document.getElementById('typing-indicator')?.remove();
+                addMessage('Ошибка связи с ИИ.', 'bot');
+            }
+        });
+    }
+    
     function showTypingIndicator() {
         const loader = document.createElement('div');
         loader.id = 'typing-indicator';
