@@ -261,17 +261,27 @@ window.openModal = (productId) => {
     if (modal && product) {
         document.getElementById('modal-content').innerHTML = `
             <div class="flex flex-col md:flex-row gap-8">
-                <div class="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden bg-gray-100">
-                    <img src="${product.image_main}" alt="${product.title}" class="w-full h-full object-cover">
+                <div class="w-full md:w-1/2 h-[400px] md:h-[600px] rounded-3xl overflow-hidden bg-gray-50 flex items-center justify-center p-4">
+                    <img src="${product.image_main}" 
+                         alt="${product.title}" 
+                         class="max-w-full max-h-full object-contain drop-shadow-md">
                 </div>
+                
                 <div class="w-full md:w-1/2 flex flex-col gap-6 text-left">
-                    <h2 class="text-4xl font-bold tracking-tight text-brand-dark">${product.title}</h2>
-                    <div class="text-gray-600 text-lg leading-relaxed">${product.description}</div>
+                    <div class="space-y-2">
+                        <span class="text-brand-blue font-bold text-xs uppercase tracking-widest">${product.category}</span>
+                        <h2 class="text-4xl font-bold tracking-tight text-brand-dark leading-tight">${product.title}</h2>
+                    </div>
+                    
+                    <div class="text-gray-600 text-lg leading-relaxed overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+                        ${product.description}
+                    </div>
+        
                     <div class="mt-auto pt-6 flex items-center justify-between border-t border-gray-100">
-                        <span class="text-3xl font-bold text-brand-blue">${product.price} ₽</span>
+                        <span class="text-3xl font-bold text-brand-dark">${priceText}</span>
                         <a href="${product.shop_link}" target="_blank" 
-                           class="bg-brand-dark text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-blue transition-all flex items-center gap-2">
-                           Купить <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                           class="bg-brand-dark text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-blue transition-all flex items-center gap-2 group">
+                           Купить <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
                         </a>
                     </div>
                 </div>
