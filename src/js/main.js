@@ -304,6 +304,11 @@ async function applySiteSettings() {
                 mainTgBtn.href = data.tg_link;
             }
 
+            const bannerTgElem = document.getElementById('banner-tg-link');
+            if (bannerTgElem && data.tg_link) {
+                bannerTgElem.href = data.tg_link;
+            }
+
             console.log("Контакты из БД успешно применены");
         }
     } catch (e) {
