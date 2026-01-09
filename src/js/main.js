@@ -255,23 +255,32 @@ function initMatrixAnimation() {
 
 window.openModal = (productId) => {
     const modal = document.getElementById('product-modal');
-    const product = allProducts.find(p => p.id === productId);
+    // Ищем товар по id (тип id в БД int8, учитывай это при сравнении)
+    const product = allProducts.find(p => String(p.id) === String(productId));
     
     if (modal && product) {
         document.getElementById('modal-content').innerHTML = `
-            <div class="flex flex-col gap-6">
-                <h2 class="text-4xl font-bold tracking-tight text-brand-dark">${product.name}</h2>
-                <div class="text-gray-600 leading-relaxed text-lg">${product.description}</div>
-                <div class="mt-4 flex items-center justify-between">
-                    <span class="text-3xl font-bold text-brand-blue">${product.price} ₽</span>
-                    <a href="https://t.me/Privatnumber5" target="_blank" class="bg-brand-dark text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-blue transition-all">Купить</a>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden bg-gray-100">
+                    <img src="${product.image_main}" alt="${product.title}" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full md:w-1/2 flex flex-col gap-6 text-left">
+                    <h2 class="text-4xl font-bold tracking-tight text-brand-dark">${product.title}</h2>
+                    <div class="text-gray-600 text-lg leading-relaxed">${product.description}</div>
+                    <div class="mt-auto pt-6 flex items-center justify-between border-t border-gray-100">
+                        <span class="text-3xl font-bold text-brand-blue">${product.price} ₽</span>
+                        <a href="${product.shop_link}" target="_blank" 
+                           class="bg-brand-dark text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-blue transition-all flex items-center gap-2">
+                           Купить <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         `;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         
-        // ВАЖНО: Перерисовываем иконки Lucide внутри модалки
-        createIcons({ icons: { X: iconConfig.X } }); 
+        // Перерисовываем иконку стрелочки в кнопке купить
+        createIcons({ icons: iconConfig }); 
     }
 }
