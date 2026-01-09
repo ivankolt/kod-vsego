@@ -253,12 +253,21 @@ function initMatrixAnimation() {
     setInterval(draw, 50);
 }
 
+
 window.openModal = (productId) => {
     const modal = document.getElementById('product-modal');
-    // Ищем товар по id (тип id в БД int8, учитывай это при сравнении)
+    // Ищем товар, превращая ID в строку для надежности
     const product = allProducts.find(p => String(p.id) === String(productId));
     
     if (modal && product) {
+        // 1. СНАЧАЛА ОБЪЯВЛЯЕМ priceText (исправляет твою ошибку)
+        const priceText = new Intl.NumberFormat('ru-RU', {
+            style: 'currency', 
+            currency: 'RUB', 
+            maximumFractionDigits: 0
+        }).format(product.price);
+
+        // 2. ТЕПЕРЬ ВСТАВЛЯЕМ В HTML
         document.getElementById('modal-content').innerHTML = `
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="w-full md:w-1/2 h-[400px] md:h-[600px] rounded-3xl overflow-hidden bg-gray-50 flex items-center justify-center p-4">
@@ -273,10 +282,10 @@ window.openModal = (productId) => {
                         <h2 class="text-4xl font-bold tracking-tight text-brand-dark leading-tight">${product.title}</h2>
                     </div>
                     
-                    <div class="text-gray-600 text-lg leading-relaxed overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+                    <div class="text-gray-600 text-lg leading-relaxed overflow-y-auto max-h-[350px] pr-2 custom-scrollbar">
                         ${product.description}
                     </div>
-        
+
                     <div class="mt-auto pt-6 flex items-center justify-between border-t border-gray-100">
                         <span class="text-3xl font-bold text-brand-dark">${priceText}</span>
                         <a href="${product.shop_link}" target="_blank" 
@@ -287,10 +296,13 @@ window.openModal = (productId) => {
                 </div>
             </div>
         `;
+        
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         
-        // Перерисовываем иконку стрелочки в кнопке купить
-        createIcons({ icons: iconConfig }); 
+        // Перерисовываем иконку стрелочки в кнопке
+        if (typeof createIcons === 'function') {
+            createIcons({ icons: iconConfig }); 
+        }
     }
-}
+};
