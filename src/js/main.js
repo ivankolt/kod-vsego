@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const contactForm = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
 
+    await applySiteSettings();
+
     // Элементы чата
     const chatToggle = document.getElementById('chat-toggle');
     const chatWindow = document.getElementById('chat-window');
@@ -227,6 +229,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (hero) setTimeout(() => hero.classList.add('visible'), 100);
 });
 
+async function applySiteSettings() {
+    try {
+        // Загружаем настройки (предполагаем, что ID всегда 1)
+        const { data, error } = await supabase
+            .from('site_settings')
+            .select('*')
+            .single();
+
+        if (error) throw error;
+
+        if (data) {
+            // 1. Обновляем текст почты
+            const emailElem = document.getElementById('display-email');
+            if (emailElem && data.email_contact) {
+                emailElem.innerText = data.email_contact;
+            }
+
+            // 2. Обновляем ссылку на Telegram
+            const tgElem = document.getElementById('display-tg-link');
+            if (tgElem && data.tg_link) {
+                tgElem.href = data.tg_link;
+            }
+
+            // 3. Обновляем ссылку на YouTube
+            const ytElem = document.getElementById('display-yt-link');
+            if (ytElem && data.yt_link) {
+                ytElem.href = data.yt_link;
+            }
+            
+            // 4. Обновляем большую кнопку Telegram (если она есть на главной)
+            const mainTgBtn = document.querySelector('a[href*="t.me/Privatnumber5"]');
+            if (mainTgBtn && data.tg_link) {
+                mainTgBtn.href = data.tg_link;
+            }
+
+            console.log("Контакты из БД успешно применены");
+        }
+    } catch (e) {
+        console.error("Ошибка обновления контактов:", e.message);
+    }
+}
 // Функция матрицы
 function initMatrixAnimation() {
     const canvas = document.getElementById('matrix-canvas');
