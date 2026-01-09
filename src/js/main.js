@@ -40,6 +40,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navChatLink = document.getElementById('nav-chat-link');
     const glow = document.getElementById('cursor-glow');
 
+    const modal = document.getElementById('product-modal');
+
+    if (closeModalBtn && modal) {
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+    
+        // Закрытие при клике на темный фон
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        });
+    }
+
     // --- ЛОГИКА СВЕЧЕНИЯ КУРСОРA ---
     window.addEventListener('mousemove', (e) => {
         if (glow) {
