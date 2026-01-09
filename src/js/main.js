@@ -259,12 +259,20 @@ window.openModal = (productId) => {
     const product = allProducts.find(p => p.id === productId);
     
     if (modal && product) {
-        // Здесь твоя логика заполнения модалки данными товара
         document.getElementById('modal-content').innerHTML = `
-            <h2 class="text-2xl font-bold">${product.name}</h2>
-            <p class="mt-4">${product.description}</p>
+            <div class="flex flex-col gap-6">
+                <h2 class="text-4xl font-bold tracking-tight text-brand-dark">${product.name}</h2>
+                <div class="text-gray-600 leading-relaxed text-lg">${product.description}</div>
+                <div class="mt-4 flex items-center justify-between">
+                    <span class="text-3xl font-bold text-brand-blue">${product.price} ₽</span>
+                    <a href="https://t.me/Privatnumber5" target="_blank" class="bg-brand-dark text-white px-8 py-4 rounded-2xl font-bold hover:bg-brand-blue transition-all">Купить</a>
+                </div>
+            </div>
         `;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        
+        // ВАЖНО: Перерисовываем иконки Lucide внутри модалки
+        createIcons({ icons: { X: iconConfig.X } }); 
     }
-};
+}
