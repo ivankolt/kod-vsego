@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 2. Выбор элементов
     const productGrid = document.getElementById('product-grid');
-    const modal = document.getElementById('product-modal');
     const modalContent = document.getElementById('modal-content');
     const closeModalBtn = document.getElementById('close-modal');
     const contactForm = document.getElementById('contact-form');
