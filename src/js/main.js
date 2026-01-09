@@ -1,6 +1,6 @@
 import '../css/style.css';
 import { getProducts, createProductCard } from './products.js';
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 import {
     createIcons, Mail, Github, Send, Youtube, MessageCircle,
     ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
@@ -8,21 +8,29 @@ import {
 } from 'lucide';
 import { getProjects, createProjectCard } from './projects_db.js';
 import IMask from 'imask';
+
 const iconConfig = {
     Mail, Github, Send, Youtube, MessageCircle,
     ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
     Check, Layout
 };
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+
+// Безопасная инициализация Supabase
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabase = (supabaseUrl && supabaseKey) 
+    ? createClient(supabaseUrl, supabaseKey)
+    : null;
 
 let allProducts = [];
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Инициализация иконок
-    
     const productGrid = document.getElementById('product-grid');
-    const projectsGrid = document.getElementById('projects-grid'); // Этого не было
-    const hero = document.getElementById('hero-content');          // Этого не было
+    const projectsGrid = document.getElementById('projects-grid');
+    const hero = document.getElementById('hero-content');
     const glow = document.getElementById('cursor-glow');
     
     const modal = document.getElementById('product-modal');
@@ -35,13 +43,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const chatInput = document.getElementById('chat-input');
     const chatMessages = document.getElementById('chat-messages');
     const navChatLink = document.getElementById('nav-chat-link');
-
     const contactForm = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
-    
+
+    // Инициализация
     createIcons({ icons: iconConfig });
     initMatrixAnimation();
-    // 2. Выбор элемент
+
+    // Курсор glow
     window.addEventListener('mousemove', (e) => {
         if (glow) {
             glow.style.left = e.clientX + 'px';
@@ -49,34 +58,55 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    // Загрузка данных ОДИН РАЗ
     try {
         await Promise.all([
-            applySiteSettings(), // Загрузка контактов
-            loadProductsData(),  // Загрузка товаров
-            loadProjectsData()   // Загрузка проектов
+            applySiteSettings(),
+            productGrid ? loadProductsData(productGrid) : Promise.resolve(),
+            projectsGrid ? loadProjectsData(projectsGrid) : Promise.resolve()
         ]);
         
-        // После загрузки всех данных запускаем анимации
         initScrollReveal();
         if (hero) hero.classList.add('visible');
     } catch (e) {
-        console.error("Ошибка при параллельной загрузке:", e);
+        console.error("Ошибка при загрузке:", e);
     }
 
-    async function loadProductsData() {
-        if (!productGrid) return;
-        allProducts = await getProducts();
-        productGrid.innerHTML = allProducts.map(p => createProductCard(p)).join('');
-        createIcons({ icons: iconConfig }); // Рисуем иконки в карточках
+    // Модал
+    setupModal(modal, closeModalBtn);
+
+    // Чат dragging
+    setupChatDragging(chatHeader, chatWindow);
+
+    // Управление чатом
+    setupChatToggle(chatToggle, chatWindow, navChatLink, chatInput);
+
+    // Форма чата
+    setupChatForm(chatForm, chatMessages, chatInput);
+
+    // Телефон маска
+    const phoneInput = document.querySelector('input[name="phone"]');
+    if (phoneInput) {
+        IMask(phoneInput, { mask: '+{7} (000) 000-00-00', lazy: false });
     }
 
-    async function loadProjectsData() {
-        if (!projectsGrid) return;
-        const projects = await getProjects();
-        projectsGrid.innerHTML = projects.map(p => createProjectCard(p)).join('');
-        createIcons({ icons: iconConfig }); // Рисуем иконки в проектах
-    }
-    
+    // Форма контактов
+    setupContactForm(contactForm, successMessage);
+}, { once: true });
+
+async function loadProductsData(grid) {
+    allProducts = await getProducts();
+    grid.innerHTML = allProducts.map(p => createProductCard(p)).join('');
+    createIcons({ icons: iconConfig });
+}
+
+async function loadProjectsData(grid) {
+    const projects = await getProjects();
+    grid.innerHTML = projects.map(p => createProjectCard(p)).join('');
+    createIcons({ icons: iconConfig });
+}
+
+function setupModal(modal, closeModalBtn) {
     if (closeModalBtn && modal) {
         closeModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
@@ -89,42 +119,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+}
 
-    // --- ПЕРЕТАСКИВАНИЕ ЧАТА (DRAGGING) ---
-    if (chatHeader && chatWindow) {
-        let isDragging = false;
-        let offsetX, offsetY;
+function setupChatDragging(chatHeader, chatWindow) {
+    if (!chatHeader || !chatWindow) return;
 
-        chatHeader.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            chatWindow.classList.add('dragging');
-            const rect = chatWindow.getBoundingClientRect();
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
+    chatHeader.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        chatWindow.classList.add('dragging');
+        const rect = chatWindow.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
 
-            chatWindow.style.bottom = 'auto';
-            chatWindow.style.right = 'auto';
-            chatWindow.style.left = rect.left + 'px';
-            chatWindow.style.top = rect.top + 'px';
-        });
+        chatWindow.style.bottom = 'auto';
+        chatWindow.style.right = 'auto';
+        chatWindow.style.left = rect.left + 'px';
+        chatWindow.style.top = rect.top + 'px';
+    });
 
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            let x = e.clientX - offsetX;
-            let y = e.clientY - offsetY;
-            const maxX = window.innerWidth - chatWindow.offsetWidth;
-            const maxY = window.innerHeight - chatWindow.offsetHeight;
-            chatWindow.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
-            chatWindow.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
-        });
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        let x = e.clientX - offsetX;
+        let y = e.clientY - offsetY;
+        const maxX = window.innerWidth - chatWindow.offsetWidth;
+        const maxY = window.innerHeight - chatWindow.offsetHeight;
+        chatWindow.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+        chatWindow.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+    });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            chatWindow.classList.remove('dragging');
-        });
-    }
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        chatWindow.classList.remove('dragging');
+    });
+}
 
-    // --- УПРАВЛЕНИЕ ЧАТОМ ---
+function setupChatToggle(chatToggle, chatWindow, navChatLink, chatInput) {
     if (navChatLink && chatWindow) {
         navChatLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -140,128 +169,113 @@ document.addEventListener('DOMContentLoaded', async () => {
             chatWindow.classList.toggle('flex');
         });
     }
+}
 
-    const chatForm = document.getElementById('chat-form');
-    if (chatForm) {
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const chatInput = document.getElementById('chat-input');
-            const text = chatInput.value.trim();
-            if (!text) return;
-
-            addMessage(text, 'user');
-            chatInput.value = '';
-            showTypingIndicator();
-
-            try {
-                const { data, error } = await supabase.functions.invoke('ai-chat', {
-                    body: { message: text }
-                });
-                document.getElementById('typing-indicator')?.remove();
-                if (error) throw error;
-                addMessage(data.reply, 'bot');
-            } catch (err) {
-                document.getElementById('typing-indicator')?.remove();
-                addMessage('Ошибка связи с ИИ.', 'bot');
-            }
-        });
-    }
-    
-    function showTypingIndicator() {
-        const loader = document.createElement('div');
-        loader.id = 'typing-indicator';
-        loader.className = 'message-appear bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 mr-auto flex gap-1 items-center mb-2';
-        loader.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-        chatMessages.appendChild(loader);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+function setupChatForm(chatForm, chatMessages, chatInput) {
+    if (!chatForm || !supabase) {
+        console.warn('Supabase не инициализирован, чат отключен');
+        return;
     }
 
-    function addMessage(text, sender) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message-appear p-4 rounded-2xl text-sm max-w-[85%] mb-2 ${sender === 'user'
-                ? 'bg-brand-blue text-white ml-auto rounded-tr-none shadow-md'
-                : 'bg-white text-gray-700 mr-auto rounded-tl-none shadow-sm border border-gray-100'
-            }`;
-        msgDiv.innerText = text;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
 
-    // --- МАТРИЦА ---
-    initMatrixAnimation();
+        addMessage(text, 'user', chatMessages);
+        chatInput.value = '';
+        showTypingIndicator(chatMessages);
 
-    // --- ОСТАЛЬНАЯ ЛОГИКА (SCROLL, МАСКИ, ФОРМЫ) ---
-    function initScrollReveal() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, index * 100);
-                }
+        try {
+            const { data, error } = await supabase.functions.invoke('ai-chat', {
+                body: { message: text }
             });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    }
+            document.getElementById('typing-indicator')?.remove();
+            if (error) throw error;
+            addMessage(data.reply, 'bot', chatMessages);
+        } catch (err) {
+            document.getElementById('typing-indicator')?.remove();
+            addMessage('Ошибка связи с ИИ. Проверьте консоль.', 'bot', chatMessages);
+            console.error('Chat error:', err);
+        }
+    });
+}
 
-    const phoneInput = document.querySelector('input[name="phone"]');
-    if (phoneInput) {
-        IMask(phoneInput, { mask: '+{7} (000) 000-00-00', lazy: false });
-    }
+function showTypingIndicator(chatMessages) {
+    const loader = document.createElement('div');
+    loader.id = 'typing-indicator';
+    loader.className = 'message-appear bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 mr-auto flex gap-1 items-center mb-2';
+    loader.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+    `;
+    chatMessages.appendChild(loader);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-    // Форма предложений
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true;
-            btn.innerHTML = 'Отправка...';
-            const formData = new FormData(contactForm);
-            try {
-                const { error } = await supabase.from('contact_submissions').insert([{
-                    first_name: formData.get('first_name'),
-                    last_name: formData.get('last_name'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone'),
-                    message: formData.get('message')
-                }]);
-                if (error) throw error;
-                contactForm.classList.add('hidden');
-                successMessage.classList.remove('hidden');
-            } catch (error) {
-                btn.disabled = false;
-                btn.innerHTML = 'Ошибка. Попробовать еще раз';
+function addMessage(text, sender, chatMessages) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message-appear p-4 rounded-2xl text-sm max-w-[85%] mb-2 ${
+        sender === 'user'
+            ? 'bg-brand-blue text-white ml-auto rounded-tr-none shadow-md'
+            : 'bg-white text-gray-700 mr-auto rounded-tl-none shadow-sm border border-gray-100'
+    }`;
+    msgDiv.innerText = text;
+    chatMessages.appendChild(msgDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function setupContactForm(contactForm, successMessage) {
+    if (!contactForm || !supabase) return;
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        if (!btn) return;
+
+        btn.disabled = true;
+        btn.innerHTML = 'Отправка...';
+        const formData = new FormData(contactForm);
+
+        try {
+            const { error } = await supabase.from('contact_submissions').insert([{
+                first_name: formData.get('first_name'),
+                last_name: formData.get('last_name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                message: formData.get('message')
+            }]);
+            if (error) throw error;
+            
+            contactForm.classList.add('hidden');
+            if (successMessage) successMessage.classList.remove('hidden');
+        } catch (error) {
+            console.error('Form submit error:', error);
+            btn.disabled = false;
+            btn.innerHTML = 'Ошибка. Попробовать еще раз';
+        }
+    });
+}
+
+function initScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 100);
             }
         });
-    }
-
-    // Загрузка товаров
-    if (productGrid) {
-        try {
-            allProducts = await getProducts();
-            productGrid.innerHTML = allProducts.map(p => createProductCard(p)).join('');
-            createIcons({ icons: iconConfig });
-            initScrollReveal();
-        } catch (e) { console.error(e); }
-    }
-
-    // Загрузка проектов
-    const projectsGrid = document.getElementById('projects-grid');
-    if (projectsGrid) {
-        try {
-            const projects = await getProjects();
-            projectsGrid.innerHTML = projects.map(p => createProjectCard(p)).join('');
-            createIcons({ icons: iconConfig });
-            initScrollReveal();
-        } catch (e) { console.error(e); }
-    }
-
-    if (hero) setTimeout(() => hero.classList.add('visible'), 100);
-});
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
 
 async function applySiteSettings() {
+    if (!supabase) return;
+
     try {
-        // Загружаем настройки (предполагаем, что ID всегда 1)
         const { data, error } = await supabase
             .from('site_settings')
             .select('*')
@@ -270,25 +284,21 @@ async function applySiteSettings() {
         if (error) throw error;
 
         if (data) {
-            // 1. Обновляем текст почты
             const emailElem = document.getElementById('display-email');
             if (emailElem && data.email_contact) {
                 emailElem.innerText = data.email_contact;
             }
 
-            // 2. Обновляем ссылку на Telegram
             const tgElem = document.getElementById('display-tg-link');
             if (tgElem && data.tg_link) {
                 tgElem.href = data.tg_link;
             }
 
-            // 3. Обновляем ссылку на YouTube
             const ytElem = document.getElementById('display-yt-link');
             if (ytElem && data.yt_link) {
                 ytElem.href = data.yt_link;
             }
             
-            // 4. Обновляем большую кнопку Telegram (если она есть на главной)
             const mainTgBtn = document.querySelector('a[href*="t.me/Privatnumber5"]');
             if (mainTgBtn && data.tg_link) {
                 mainTgBtn.href = data.tg_link;
@@ -300,46 +310,55 @@ async function applySiteSettings() {
         console.error("Ошибка обновления контактов:", e.message);
     }
 }
-// Функция матрицы
+
 function initMatrixAnimation() {
     const canvas = document.getElementById('matrix-canvas');
     if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
     const fontSize = 14;
     const columns = Math.floor(width / fontSize);
     const drops = Array(columns).fill(1);
+
     function draw() {
         ctx.fillStyle = 'rgba(20, 24, 35, 0.1)';
         ctx.fillRect(0, 0, width, height);
+        
         ctx.font = `${fontSize}px monospace`;
         for (let i = 0; i < drops.length; i++) {
             const text = Math.random() > 0.5 ? '0' : '1';
             ctx.fillStyle = Math.random() > 0.5 ? '#FFFFFF' : '#00aeef';
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > height && Math.random() > 0.985) drops[i] = 0;
+            
+            if (drops[i] * fontSize > height && Math.random() > 0.985) {
+                drops[i] = 0;
+            }
             drops[i]++;
         }
     }
+    
+    // Resize handler
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+    
     setInterval(draw, 50);
 }
 
-
 window.openModal = (productId) => {
     const modal = document.getElementById('product-modal');
-    // Ищем товар, превращая ID в строку для надежности
     const product = allProducts.find(p => String(p.id) === String(productId));
     
     if (modal && product) {
-        // 1. СНАЧАЛА ОБЪЯВЛЯЕМ priceText (исправляет твою ошибку)
         const priceText = new Intl.NumberFormat('ru-RU', {
             style: 'currency', 
             currency: 'RUB', 
             maximumFractionDigits: 0
         }).format(product.price);
 
-        // 2. ТЕПЕРЬ ВСТАВЛЯЕМ В HTML
         document.getElementById('modal-content').innerHTML = `
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="w-full md:w-1/2 h-[400px] md:h-[600px] rounded-3xl overflow-hidden bg-gray-50 flex items-center justify-center p-4">
@@ -372,9 +391,6 @@ window.openModal = (productId) => {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         
-        // Перерисовываем иконку стрелочки в кнопке
-        if (typeof createIcons === 'function') {
-            createIcons({ icons: iconConfig }); 
-        }
+        createIcons({ icons: iconConfig });
     }
 };
