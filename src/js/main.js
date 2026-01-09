@@ -21,22 +21,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. Инициализация иконок
     
     const productGrid = document.getElementById('product-grid');
-    const modalContent = document.getElementById('modal-content');
+    const projectsGrid = document.getElementById('projects-grid'); // Этого не было
+    const hero = document.getElementById('hero-content');          // Этого не было
+    const glow = document.getElementById('cursor-glow');
+    
+    const modal = document.getElementById('product-modal');
     const closeModalBtn = document.getElementById('close-modal');
-    const contactForm = document.getElementById('contact-form');
-    const successMessage = document.getElementById('form-success');
-
-        // Элементы чата
+    
     const chatToggle = document.getElementById('chat-toggle');
     const chatWindow = document.getElementById('chat-window');
-    const chatHeader = document.getElementById('chat-header'); // Добавлено!
+    const chatHeader = document.getElementById('chat-header');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     const chatMessages = document.getElementById('chat-messages');
     const navChatLink = document.getElementById('nav-chat-link');
-    const glow = document.getElementById('cursor-glow');
 
-    const modal = document.getElementById('product-modal');
+    const contactForm = document.getElementById('contact-form');
+    const successMessage = document.getElementById('form-success');
+    
     createIcons({ icons: iconConfig });
     initMatrixAnimation();
     // 2. Выбор элементов
