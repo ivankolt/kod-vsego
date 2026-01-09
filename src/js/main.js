@@ -8,20 +8,19 @@ import {
 } from 'lucide';
 import { getProjects, createProjectCard } from './projects_db.js';
 import IMask from 'imask';
-
+const iconConfig = {
+    Mail, Github, Send, Youtube, MessageCircle,
+    ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
+    Check, Layout
+};
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
 
 let allProducts = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Инициализация иконок
-    const iconConfig = {
-        Mail, Github, Send, Youtube, MessageCircle,
-        ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
-        Check, Layout
-    };
-    createIcons({ icons: iconConfig });
 
+    createIcons({ icons: iconConfig });
     // 2. Выбор элементов
     const productGrid = document.getElementById('product-grid');
     const modalContent = document.getElementById('modal-content');
