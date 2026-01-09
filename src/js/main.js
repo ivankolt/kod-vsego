@@ -236,3 +236,18 @@ function initMatrixAnimation() {
     }
     setInterval(draw, 50);
 }
+
+window.openModal = (productId) => {
+    const modal = document.getElementById('product-modal');
+    const product = allProducts.find(p => p.id === productId);
+    
+    if (modal && product) {
+        // Здесь твоя логика заполнения модалки данными товара
+        document.getElementById('modal-content').innerHTML = `
+            <h2 class="text-2xl font-bold">${product.name}</h2>
+            <p class="mt-4">${product.description}</p>
+        `;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+};
