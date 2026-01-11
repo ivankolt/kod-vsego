@@ -1,0 +1,13 @@
+# Cache favicon files for 1 year
+<FilesMatch "favicon">
+    Header set Cache-Control "public, max-age=31536000"
+FilesMatch>
+
+# Set correct MIME types
+<FilesMatch "\\.ico$">
+    ForceType image/x-icon
+FilesMatch>
+
+<FilesMatch "\\.png$">
+    ForceType image/png
+FilesMatch>
