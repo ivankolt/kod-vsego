@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import {
     createIcons, Mail, Github, Send, Youtube, MessageCircle,
     ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
-    Check, Layout
+    Check, Layout, List, AlertTriangle, Copy, Download // <-- ДОБАВИЛ НОВЫЕ
 } from 'lucide';
 import { getProjects, createProjectCard } from './projects_db.js';
 import IMask from 'imask';
