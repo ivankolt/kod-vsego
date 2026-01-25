@@ -4,7 +4,9 @@ import { createClient } from '@supabase/supabase-js';
 import {
     createIcons, Mail, Github, Send, Youtube, MessageCircle,
     ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
-    Check, Layout, List, AlertTriangle, Copy, Download // <-- ДОБАВИЛ НОВЫЕ
+    Check, Layout, 
+    // Новые иконки:
+    List, AlertTriangle, Copy, Download, ExternalLink, ArrowDown
 } from 'lucide';
 import { getProjects, createProjectCard } from './projects_db.js';
 import IMask from 'imask';
@@ -12,7 +14,9 @@ import IMask from 'imask';
 const iconConfig = {
     Mail, Github, Send, Youtube, MessageCircle,
     ArrowUpRight, Menu, ArrowRight, X, MessageSquare, ChevronDown, Bot,
-    Check, Layout
+    Check, Layout,
+    // Обязательно добавьте их сюда тоже:
+    List, AlertTriangle, Copy, Download, ExternalLink, ArrowDown
 };
 
 // Безопасная инициализация Supabase
