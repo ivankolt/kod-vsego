@@ -199,7 +199,7 @@
           </p>
         </div>
 
-        <div class="max-w-5xl mx-auto bg-white rounded-[40px] p-8 md:p-12 shadow-xl border border-gray-100 overflow-hidden relative">
+        <div class="max-w-5xl mx-auto bg-white rounded-[40px] p-6 md:p-12 shadow-xl border border-gray-100 overflow-hidden relative">
           
           <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue/5 rounded-bl-[100px] -z-0 pointer-events-none"></div>
 
@@ -217,8 +217,9 @@
               </p>
             </div>
           </div>
+
           <div class="relative z-10">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-6 mb-8 border-b border-gray-100 pb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-8 border-b border-gray-100 pb-8">
               <div>
                 <span class="inline-block px-4 py-2 rounded-full bg-brand-blue/10 text-brand-blue font-bold text-xs uppercase tracking-widest mb-4">
                   Hot Topic
@@ -228,24 +229,25 @@
                   Google Antigravity — мощная AI-IDE, конкурент Cursor и Windsurf. Если вы столкнулись с ошибкой <span class="font-bold text-red-500">"Region not supported"</span> или ваш аккаунт "убит", этот гайд для вас.
                 </p>
               </div>
-              <div class="flex flex-col gap-3 min-w-[200px]">
+              
+              <div class="flex flex-col gap-3 w-full md:w-auto md:min-w-[250px]">
                 <a href="https://github.com/lbjlaq/Antigravity-Manager/releases/download/v3.3.45/Antigravity.Tools_3.3.45_x64-setup.exe" target="_blank" 
-                   class="flex items-center justify-center gap-2 bg-brand-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue transition-all text-center text-sm shadow-lg shadow-brand-blue/20">
+                   class="flex items-center justify-center gap-2 bg-brand-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue transition-all text-center text-sm shadow-lg shadow-brand-blue/20 w-full">
                   <i data-lucide="download" class="w-5 h-5 flex-shrink-0"></i> 
-                  <span>Скачать Antigravity-Manager<br><span class="text-[10px] opacity-70 font-normal uppercase tracking-wider">Прямая Ссылка</span></span>
+                  <span>Скачать Manager<br><span class="text-[10px] opacity-70 font-normal uppercase tracking-wider">Прямая Ссылка (exe)</span></span>
                 </a>
-              
+                
                 <a href="https://github.com/Draculabo/AntigravityManager/releases/tag/v0.2.2" target="_blank" 
-                   class="flex items-center justify-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 hover:border-gray-300 transition-all text-sm">
-                  <i data-lucide="github" class="w-4 h-4"></i> Ссылка на GitHub (Windows)
+                   class="flex items-center justify-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 hover:border-gray-300 transition-all text-sm w-full">
+                  <i data-lucide="github" class="w-4 h-4"></i> GitHub (Windows)
                 </a>
-              
+                
                 <a href="https://github.com/lbjlaq/Antigravity-Manager/releases/" target="_blank" 
-                   class="flex items-center justify-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 hover:border-gray-300 transition-all text-sm">
-                  <i data-lucide="github" class="w-4 h-4"></i> Для других ОС (Mac, Linux)
+                   class="flex items-center justify-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 hover:border-gray-300 transition-all text-sm w-full">
+                  <i data-lucide="github" class="w-4 h-4"></i> GitHub (Mac/Linux)
                 </a>
-                <a href="https://www.youtube.com/shorts/A4jv0QhdEmo?feature=share" target="_blank" 
-                   class="flex items-center justify-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all">
+                 <a href="https://www.youtube.com/shorts/A4jv0QhdEmo?feature=share" target="_blank" 
+                   class="flex items-center justify-center gap-2 border border-gray-200 text-gray-700 px-6 py-3 rounded-xl font-bold hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all w-full">
                   <i data-lucide="youtube" class="w-5 h-5"></i> Видео-гайд
                 </a>
               </div>
@@ -286,24 +288,28 @@
                   <i data-lucide="alert-triangle"></i> Если все равно не работает
                 </h4>
                 
-                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <div class="bg-gray-50 p-5 md:p-6 rounded-2xl border border-gray-200">
                   <p class="text-sm text-gray-600 mb-4">
-                    Удалите Antigravity через <b>Revo Uninstaller</b> (с чисткой реестра). Затем вручную удалите эти папки, если они остались:
+                    Удалите Antigravity через <b>Revo Uninstaller</b> (с чисткой реестра). Затем вручную удалите эти папки (нажмите, чтобы скопировать):
                   </p>
                   
                   <div class="space-y-2 font-mono text-xs">
-                    <div class="bg-[#1c212e] text-gray-300 p-3 rounded-lg flex justify-between group cursor-pointer hover:bg-black transition-colors" onclick="navigator.clipboard.writeText('%USERPROFILE%\\.antigravity')">
-                      <span>%USERPROFILE%\.antigravity</span>
-                      <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    
+                    <div class="bg-[#1c212e] text-gray-300 p-3 rounded-lg flex justify-between items-center group cursor-pointer hover:bg-black transition-colors active:scale-95 transform" onclick="navigator.clipboard.writeText('%USERPROFILE%\\.antigravity')">
+                      <span class="overflow-x-auto whitespace-nowrap scrollbar-hide mr-2">%USERPROFILE%\.antigravity</span>
+                      <i data-lucide="copy" class="w-4 h-4 text-gray-500 md:text-gray-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0 transition-opacity"></i>
                     </div>
-                    <div class="bg-[#1c212e] text-gray-300 p-3 rounded-lg flex justify-between group cursor-pointer hover:bg-black transition-colors" onclick="navigator.clipboard.writeText('%USERPROFILE%\\.gemini')">
-                      <span>%USERPROFILE%\.gemini</span>
-                      <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+
+                    <div class="bg-[#1c212e] text-gray-300 p-3 rounded-lg flex justify-between items-center group cursor-pointer hover:bg-black transition-colors active:scale-95 transform" onclick="navigator.clipboard.writeText('%USERPROFILE%\\.gemini')">
+                      <span class="overflow-x-auto whitespace-nowrap scrollbar-hide mr-2">%USERPROFILE%\.gemini</span>
+                      <i data-lucide="copy" class="w-4 h-4 text-gray-500 md:text-gray-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0 transition-opacity"></i>
                     </div>
-                    <div class="bg-[#1c212e] text-gray-300 p-3 rounded-lg flex justify-between group cursor-pointer hover:bg-black transition-colors" onclick="navigator.clipboard.writeText('%USERPROFILE%\\AppData\\Roaming\\Antigravity\\')">
-                      <span>%USERPROFILE%\AppData\Roaming\Antigravity\</span>
-                      <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+
+                    <div class="bg-[#1c212e] text-gray-300 p-3 rounded-lg flex justify-between items-center group cursor-pointer hover:bg-black transition-colors active:scale-95 transform" onclick="navigator.clipboard.writeText('%USERPROFILE%\\AppData\\Roaming\\Antigravity\\')">
+                      <span class="overflow-x-auto whitespace-nowrap scrollbar-hide mr-2">%USERPROFILE%\AppData\Roaming\Antigravity\</span>
+                      <i data-lucide="copy" class="w-4 h-4 text-gray-500 md:text-gray-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 flex-shrink-0 transition-opacity"></i>
                     </div>
+
                   </div>
                   
                   <p class="text-xs text-gray-400 mt-4 italic">После очистки установите Antigravity заново, но НЕ входите в него. Запускайте сразу через Manager.</p>
@@ -313,7 +319,7 @@
                   <h5 class="font-bold text-xl mb-2">Нужна подписка Google Ai Pro?</h5>
                   <p class="text-gray-400 text-sm mb-6">Помогу с оплатой и настройкой.</p>
                   <a href="https://t.me/Privatnumber5" target="_blank" 
-                     class="inline-flex items-center gap-2 bg-brand-blue text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-transform">
+                     class="inline-flex items-center justify-center gap-2 bg-brand-blue text-white px-8 py-3 rounded-xl font-bold hover:scale-105 transition-transform w-full md:w-auto">
                     Написать Админу <i data-lucide="send" class="w-4 h-4"></i>
                   </a>
                   <div class="mt-4 text-xs text-gray-500">
