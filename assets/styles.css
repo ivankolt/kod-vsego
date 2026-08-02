@@ -248,10 +248,12 @@ h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
 .review-overview > div { display: flex; flex-direction: column; }
 .review-overview span { color: #ffc247; font-size: 17px; letter-spacing: .08em; }
 .review-overview small { color: #cfe2ff; font-size: 11px; }
-.carousel-controls { display: flex; gap: 10px; }
-.carousel-controls button { width: 48px; height: 48px; color: white; background: rgba(255,255,255,.11); border: 1px solid rgba(255,255,255,.25); border-radius: 50%; cursor: pointer; }
-.carousel-controls button:hover { background: rgba(255,255,255,.2); }
-.carousel-controls button:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+.reviews-carousel { position: relative; }
+.carousel-arrow { position: absolute; z-index: 5; top: 50%; width: 48px; height: 48px; display: grid; place-items: center; padding: 0; color: white; background: rgba(5,55,135,.88); border: 1px solid rgba(255,255,255,.42); border-radius: 50%; box-shadow: 0 12px 30px rgba(0,30,88,.28); cursor: pointer; transform: translateY(-50%); transition: background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.carousel-arrow-prev { left: -20px; }
+.carousel-arrow-next { right: -20px; }
+.carousel-arrow:hover { background: #0b71ec; border-color: white; box-shadow: 0 15px 34px rgba(0,30,88,.38); }
+.carousel-arrow:focus-visible { outline: 3px solid white; outline-offset: 3px; }
 .reviews-track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(340px, 380px); gap: 20px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: none; scrollbar-width: none; }
 .reviews-track::-webkit-scrollbar { display: none; }
 .review-card { min-height: 430px; display: flex; flex-direction: column; padding: 26px; color: var(--ink); background: white; border: 1px solid rgba(255,255,255,.45); border-radius: 20px; box-shadow: 0 18px 48px rgba(0,43,111,.16); scroll-snap-align: start; cursor: pointer; }
@@ -506,6 +508,9 @@ html[data-theme="dark"] .avito-logo { filter: brightness(1.08); }
   .portfolio-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .review-heading { align-items: flex-start; flex-direction: column; }
   .review-heading-side { width: 100%; justify-content: space-between; }
+  .carousel-arrow { width: 44px; height: 44px; }
+  .carousel-arrow-prev { left: -8px; }
+  .carousel-arrow-next { right: -8px; }
   .reviews-track { grid-auto-columns: 88%; }
   .social-stack a { grid-template-columns: 42px 1fr 24px; }
   .social-stack .social-icon { grid-column: 1; grid-row: 1 / 3; }
