@@ -1,497 +1,389 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TotalC0de - Links</title>
-    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            background: #0a0a0a;
-            color: #ffffff;
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        @media (prefers-color-scheme: light) {
-            body {
-                background: #f5f5f7;
-                color: #1d1d1f;
-            }
-        }
-
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(108, 99, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(108, 99, 255, 0.05) 0%, transparent 70%);
-            z-index: -1;
-            animation: gradientShift 15s ease-in-out infinite;
-        }
-
-        @media (prefers-color-scheme: light) {
-            .bg-gradient {
-                background: 
-                    radial-gradient(ellipse at 20% 20%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                    radial-gradient(ellipse at 50% 50%, rgba(108, 99, 255, 0.03) 0%, transparent 70%);
-            }
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes logoPulse {
-            0%, 100% {
-                filter: drop-shadow(0 0 20px rgba(108, 99, 255, 0.3));
-            }
-            50% {
-                filter: drop-shadow(0 0 30px rgba(108, 99, 255, 0.55));
-            }
-        }
-
-        @keyframes cardSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .profile {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            border-radius: 20px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(108, 99, 255, 0.3));
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            animation: logoPulse 4s ease-in-out infinite, fadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .logo:hover {
-            transform: scale(1.06) rotate(1deg);
-            filter: drop-shadow(0 0 35px rgba(108, 99, 255, 0.65));
-        }
-
-        .name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
-        }
-
-        .bio {
-            font-size: 14px;
-            color: #a0a0a0;
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
-        }
-
-        @media (prefers-color-scheme: light) {
-            .bio {
-                color: #6e6e73;
-            }
-        }
-
-        .subtitle {
-            font-size: 13px;
-            color: #6C63FF;
-            margin-top: 12px;
-            font-weight: 500;
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
-        }
-
-        @media (prefers-color-scheme: light) {
-            .subtitle {
-                color: #5a52d5;
-            }
-        }
-
-        .links {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .link-card {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 18px 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            text-decoration: none;
-            color: #ffffff;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            animation: cardSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        @media (prefers-color-scheme: light) {
-            .link-card {
-                background: rgba(255, 255, 255, 0.7);
-                border: 1px solid rgba(0, 0, 0, 0.08);
-                color: #1d1d1f;
-                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            }
-        }
-
-        .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .link-card:hover {
-            transform: translateY(-2px) scale(1.02);
-            border-color: rgba(108, 99, 255, 0.4);
-            box-shadow: 
-                0 8px 32px rgba(108, 99, 255, 0.2),
-                0 0 0 1px rgba(108, 99, 255, 0.1);
-        }
-
-        @media (prefers-color-scheme: light) {
-            .link-card:hover {
-                box-shadow: 
-                    0 8px 32px rgba(108, 99, 255, 0.15),
-                    0 0 0 1px rgba(108, 99, 255, 0.2);
-            }
-        }
-
-        .link-card:hover::before {
-            opacity: 1;
-        }
-
-        .link-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(108, 99, 255, 0.12) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .link-card:hover::after {
-            opacity: 1;
-        }
-
-        .link-card:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        .link-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            background: transparent;
-        }
-
-        .link-card:hover .link-icon {
-            transform: scale(1.1);
-        }
-
-        .link-icon-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .link-icon.telegram,
-        .link-icon.vk,
-        .link-icon.bot,
-        .link-icon.youtube,
-        .link-icon.instagram,
-        .link-icon.tiktok {
-            background: transparent;
-        }
-
-        .link-content {
-            flex: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .link-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .link-url {
-            font-size: 12px;
-            color: #707070;
-            transition: color 0.3s ease;
-        }
-
-        @media (prefers-color-scheme: light) {
-            .link-url {
-                color: #6e6e73;
-            }
-        }
-
-        .link-card:hover .link-url {
-            color: #a0a0a0;
-        }
-
-        .link-arrow {
-            font-size: 18px;
-            color: #505050;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        @media (prefers-color-scheme: light) {
-            .link-arrow {
-                color: #86868b;
-            }
-        }
-
-        .link-card:hover .link-arrow {
-            color: #6C63FF;
-            transform: translateX(6px);
-            text-shadow: 0 0 12px rgba(108, 99, 255, 0.5);
-        }
-
-        .footer {
-            margin-top: auto;
-            padding-top: 60px;
-            text-align: center;
-            font-size: 12px;
-            color: #404040;
-        }
-
-        @media (max-width: 520px) {
-            .container {
-                padding: 40px 16px;
-            }
-
-            .logo {
-                width: 100px;
-                height: 100px;
-            }
-
-            .name {
-                font-size: 20px;
-            }
-
-            .link-card {
-                padding: 16px 20px;
-            }
-
-            .link-icon {
-                width: 50px;
-                height: 50px;
-                border-radius: 12px;
-            }
-
-            .link-icon-img {
-                width: 100%;
-                height: 100%;
-            }
-
-            .link-title {
-                font-size: 15px;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google AI Pro, Gemini и NotebookLM — цены | TotalC0de</title>
+  <meta name="description" content="Google AI Pro, Gemini, Nano Banana Pro, NotebookLM, Antigravity и хранилище Google 5 ТБ: цены, описания, отзывы и поддержка TotalC0de.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="yandex-verification" content="7a25aa6bf0e7a0d7">
+  <link rel="canonical" href="https://total-code.ru/">
+  <link rel="icon" type="image/jpeg" href="/assets/logo.jpg">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="TotalC0de">
+  <meta property="og:title" content="TotalC0de — технологии, автоматизация и ИИ">
+  <meta property="og:description" content="Цифровые товары и услуги с понятными условиями, поддержкой и проверяемыми отзывами.">
+  <meta property="og:url" content="https://total-code.ru/">
+  <meta property="og:image" content="https://total-code.ru/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "OnlineStore",
+    "name": "TotalC0de",
+    "url": "https://total-code.ru/",
+    "logo": "https://total-code.ru/assets/logo.jpg",
+    "description": "Цифровые товары, ИИ-сервисы, Telegram-боты и автоматизация",
+    "founder": {"@type":"Person","name":"Кольцов Иван Максимович","taxID":"740706114854"},
+    "sameAs": [
+      "https://t.me/TotalC0de",
+      "https://vk.com/totalc0de",
+      "https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410",
+      "https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Каталог TotalC0de",
+      "itemListElement": [
+        {"@type":"Offer","price":"900","priceCurrency":"RUB","url":"https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410","itemOffered":{"@type":"Product","name":"Google Antigravity 2.0 / IDE Google Pro","category":"Нейросети"}},
+        {"@type":"Offer","price":"388","priceCurrency":"RUB","url":"https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410","itemOffered":{"@type":"Product","name":"Nano Banana Pro Google Gemini — 12 месяцев","category":"Нейросети"}},
+        {"@type":"Offer","price":"250","priceCurrency":"RUB","url":"https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410","itemOffered":{"@type":"Product","name":"Увеличение хранилища Google до 5 ТБ","category":"Облачное хранилище"}},
+        {"@type":"Offer","price":"690","priceCurrency":"RUB","url":"https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile","itemOffered":{"@type":"Product","name":"NotebookLM Pro — 12 месяцев","category":"Нейросети"}},
+        {"@type":"Offer","price":"490","priceCurrency":"RUB","url":"https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile","itemOffered":{"@type":"Product","name":"Nano Banana Pro Google Gemini — 18 месяцев","category":"Нейросети"}},
+        {"@type":"Offer","price":"790","priceCurrency":"RUB","url":"https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile","itemOffered":{"@type":"Product","name":"Google AI Pro + Antigravity — 12 месяцев","category":"Нейросети"}},
+        {"@type":"Offer","price":"500","priceCurrency":"RUB","url":"https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile","itemOffered":{"@type":"Product","name":"Google AI Pro — 18 месяцев","category":"Нейросети"}}
+      ]
+    }
+  }
+  </script>
 </head>
 <body>
-    <div class="bg-gradient"></div>
-    <div id="app">
-        <div class="container">
-            <div class="profile">
-                <img src="assets/logo.jpg" alt="Код Всего" class="logo">
-                <h1 class="name">{{ name }}</h1>
-                <p class="bio">{{ bio }}</p>
-                <p class="subtitle">{{ subtitle }}</p>
-            </div>
-
-            <div class="links">
-                <a
-                    v-for="(link, index) in links"
-                    :key="index"
-                    :href="link.url"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="link-card"
-                    :style="{ animationDelay: (index * 0.1 + 0.5) + 's' }"
-                >
-                    <div class="link-icon" :class="link.iconClass">
-                        <img :src="link.iconImg" :alt="link.title" class="link-icon-img">
-                    </div>
-                    <div class="link-content">
-                        <div class="link-title">{{ link.title }}</div>
-                        <div class="link-url">{{ link.displayUrl }}</div>
-                    </div>
-                    <span class="link-arrow">→</span>
-                </a>
-            </div>
-
-            <div class="footer" v-if="footerText">
-                {{ footerText }}
-            </div>
-        </div>
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="TotalC0de — главная">
+        <img src="/assets/logo.jpg" alt="" width="48" height="48">
+        <span>Total<span>C0de</span></span>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-nav">Меню</button>
+      <nav id="main-nav" class="main-nav" aria-label="Основная навигация">
+        <a href="/#catalog">Каталог</a>
+        <a href="/#reviews">Отзывы</a>
+        <a href="/#about">О проекте</a>
+        <a href="/links/">Все ссылки</a>
+        <a class="nav-cta" href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Написать</a>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        const { createApp } = Vue;
+  <main id="main">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot"></span> Технологии без лишней сложности</p>
+          <h1>Google AI Pro, Gemini<br><span>и цифровые решения</span></h1>
+          <p class="lead">Подписки Google AI Pro, Nano Banana Pro, NotebookLM и Antigravity из двух профилей Avito, а также Telegram‑боты и автоматизация. До покупки — понятное описание, после — поддержка в личных сообщениях.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#catalog">Смотреть каталог</a>
+            <a class="button button-secondary" href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Задать вопрос</a>
+          </div>
+          <ul class="trust-list" aria-label="Преимущества">
+            <li>Самозанятый</li>
+            <li>Поддержка после покупки</li>
+          </ul>
+        </div>
+        <div class="hero-visual" aria-label="Направления TotalC0de">
+          <div class="visual-glow"></div>
+          <div class="visual-card visual-card-main">
+            <div class="visual-icon">AI</div>
+            <p>ИИ‑сервисы</p>
+            <span>Помощь с выбором и настройкой</span>
+          </div>
+          <div class="visual-card visual-card-top"><b>24/7</b><span>онлайн</span></div>
+          <div class="visual-card visual-card-bottom"><b>2</b><span>профиля Avito</span></div>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+        </div>
+      </div>
+    </section>
 
-        createApp({
-            data() {
-                return {
-                    name: 'TotalC0de',
-                    bio: 'Telegram bots • Coding • Automation',
-                    subtitle: 'Все соцсети в одном месте — ждём вас!',
-                    footerText: '',
-                    links: [
-                        {
-                            title: 'Телеграм Код Всего',
-                            url: 'https://t.me/TotalC0de',
-                            displayUrl: 't.me/TotalC0de',
-                            iconImg: 'assets/free-icon-telegram-2111646.png',
-                            iconClass: 'telegram'
-                        },
-                        {
-                            title: 'YouTube',
-                            url: 'https://www.youtube.com/@totallcode',
-                            displayUrl: 'youtube.com/@totallcode',
-                            iconImg: 'assets/youtube.svg',
-                            iconClass: 'youtube'
-                        },
-                        {
-                            title: 'TikTok',
-                            url: 'https://www.tiktok.com/@totallcode',
-                            displayUrl: 'tiktok.com/@totallcode',
-                            iconImg: 'assets/free-icon-tok-14045486.png',
-                            iconClass: 'tiktok'
-                        },
-                        {
-                            title: 'Instagram',
-                            url: 'https://www.instagram.com/total_code',
-                            displayUrl: 'instagram.com/total_code',
-                            iconImg: 'assets/instagram.svg',
-                            iconClass: 'instagram'
-                        },
-                        {
-                            title: 'TG BOT для генерации',
-                            url: 'https://t.me/total_code_gpt_bot',
-                            displayUrl: 't.me/total_code_gpt_bot',
-                            iconImg: 'assets/free-icon-telegram-2111646.png',
-                            iconClass: 'bot'
-                        },
-                        {
-                            title: 'VK BOT (Сообщение)',
-                            url: 'https://m.vk.com/totalc0de',
-                            displayUrl: 'vk.com/totalc0de',
-                            iconImg: 'assets/free-icon-vk-5968835.png',
-                            iconClass: 'vk'
-                        },
-                        {
-                            title: 'Сотрудничество и реклама',
-                            url: 'https://t.me/Privatnumber5',
-                            displayUrl: 't.me/Privatnumber5',
-                            iconImg: 'assets/free-icon-telegram-2111646.png',
-                            iconClass: 'telegram'
-                        }
-                    ]
-                };
-            }
-        }).mount('#app');
-    </script>
+    <section class="proof-strip" aria-label="Каналы и площадки">
+      <div class="container proof-items">
+        <span>Проверяйте нас на площадках</span>
+        <a href="https://t.me/TotalC0de" target="_blank" rel="noopener noreferrer"><img class="platform-icon-image" src="/assets/free-icon-telegram-2111646.png" alt="">Telegram</a>
+        <a href="https://vk.com/totalc0de" target="_blank" rel="noopener noreferrer"><img class="platform-icon-image" src="/assets/free-icon-vk-5968835.png" alt="">ВКонтакте</a>
+        <a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer"><img class="avito-logo avito-logo-proof" src="/assets/avito-logo.svg" alt="Avito">профиль 1</a>
+        <a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer"><img class="avito-logo avito-logo-proof" src="/assets/avito-logo.svg" alt="Avito">профиль 2</a>
+      </div>
+    </section>
+
+    <section id="catalog" class="section section-soft">
+      <div class="container">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="eyebrow">Каталог</p>
+            <h2>Товары и актуальные цены</h2>
+          </div>
+          <p>Собрали платные предложения из двух профилей Avito с ценами и основными возможностями каждого варианта.</p>
+        </div>
+        <p class="catalog-updated">Цены по присланным материалам · обновлено 2 августа 2026</p>
+
+        <section class="catalog-group" aria-labelledby="profile-one-title">
+          <div class="catalog-group-heading">
+            <div class="catalog-profile"><img class="avito-logo avito-logo-group" src="/assets/avito-logo.svg" alt="Avito"><div><span>Профиль 1</span><h3 id="profile-one-title">Основная витрина</h3></div></div>
+            <a class="button button-secondary button-compact" href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Открыть профиль</a>
+          </div>
+          <div class="products-grid products-grid-three">
+            <article class="product-card">
+              <div class="product-art art-antigravity" aria-hidden="true"><span>G+</span><small>IDE</small></div>
+              <div class="product-badges"><span>Google AI Pro</span><span>Antigravity 2.0</span></div>
+              <h3><a class="product-title-link" href="/google-antigravity/">Google Antigravity 2.0 / IDE Google Pro</a></h3>
+              <p>Google‑аккаунт PRO с подключением Antigravity и помощью при активации.</p>
+              <ul class="product-features"><li>Новый аккаунт или подключение</li><li>Google AI Pro до 12 месяцев</li><li>Поддержка при запуске</li></ul>
+              <div class="product-footer"><strong>900 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+            <article class="product-card">
+              <div class="product-art art-banana" aria-hidden="true"><span>NB</span><small>12 мес.</small></div>
+              <div class="product-badges"><span>Фото с ИИ</span><span>12 месяцев</span></div>
+              <h3><a class="product-title-link" href="/nano-banana-pro/">Nano Banana Pro Google Gemini</a></h3>
+              <p>Доступ к инструментам генерации изображений Google на один год.</p>
+              <ul class="product-features"><li>Nano Banana Pro и Nano Banana 2</li><li>Google Pro</li><li>Активация на аккаунт</li></ul>
+              <div class="product-footer"><strong>388 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+            <article class="product-card">
+              <div class="product-art art-storage" aria-hidden="true"><span>5 ТБ</span><small>Google</small></div>
+              <div class="product-badges"><span>Хранилище</span><span>12 месяцев</span></div>
+              <h3><a class="product-title-link" href="/google-storage/">Увеличение хранилища Google до 5 ТБ</a></h3>
+              <p>Расширение места на личном Google‑аккаунте для файлов, фотографий и почты.</p>
+              <ul class="product-features"><li>До 5 ТБ пространства</li><li>Google Диск, Фото и Gmail</li><li>Подключение на 12 месяцев</li></ul>
+              <div class="product-footer"><strong>250 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="catalog-group" aria-labelledby="profile-two-title">
+          <div class="catalog-group-heading">
+            <div class="catalog-profile"><img class="avito-logo avito-logo-group" src="/assets/avito-logo.svg" alt="Avito"><div><span>Профиль 2</span><h3 id="profile-two-title">Дополнительная витрина</h3></div></div>
+            <a class="button button-secondary button-compact" href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Открыть профиль</a>
+          </div>
+          <div class="products-grid products-grid-four">
+            <article class="product-card">
+              <div class="product-art art-notebook" aria-hidden="true"><span>NLM</span><small>PRO</small></div>
+              <div class="product-badges"><span>NotebookLM</span><span>12 месяцев</span></div>
+              <h3><a class="product-title-link" href="/notebooklm-pro/">NotebookLM Pro</a></h3>
+              <p>Подписка для работы с документами, исследованиями, презентациями и аудио.</p>
+              <ul class="product-features"><li>NotebookLM Pro</li><li>Инструкция по использованию</li><li>Дополнительные AI‑инструменты</li></ul>
+              <div class="product-footer"><strong>690 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+            <article class="product-card">
+              <div class="product-art art-banana-alt" aria-hidden="true"><span>NB</span><small>18 мес.</small></div>
+              <div class="product-badges"><span>Google Gemini</span><span>18 месяцев</span></div>
+              <h3><a class="product-title-link" href="/nano-banana-pro/">Nano Banana Pro Google Gemini</a></h3>
+              <p>Доступ к генерации и редактированию изображений через AI‑инструменты Google.</p>
+              <ul class="product-features"><li>Nano Banana Pro</li><li>Инструменты Gemini</li><li>Подключение на аккаунт</li></ul>
+              <div class="product-footer"><strong>490 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+            <article class="product-card">
+              <div class="product-art art-ai-pro" aria-hidden="true"><span>AI</span><small>PRO + IDE</small></div>
+              <div class="product-badges"><span>Google AI Pro</span><span>12 месяцев</span></div>
+              <h3><a class="product-title-link" href="/google-ai-pro/">Google AI Pro + Antigravity</a></h3>
+              <p>Комплект AI‑сервисов Google и IDE Antigravity для работы, учёбы и разработки.</p>
+              <ul class="product-features"><li>Gemini и Deep Research</li><li>Flow, Whisk и NotebookLM</li><li>Antigravity и облачное хранилище</li></ul>
+              <div class="product-footer"><strong>790 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+            <article class="product-card">
+              <div class="product-art art-google-pro" aria-hidden="true"><span>G</span><small>18 мес.</small></div>
+              <div class="product-badges"><span>Veo · Gemini</span><span>18 месяцев</span></div>
+              <h3><a class="product-title-link" href="/google-ai-pro/">Google AI Pro</a></h3>
+              <p>Расширенный доступ к нейросетям Google для изображений, видео и исследований.</p>
+              <ul class="product-features"><li>Gemini, Veo и Nano Banana Pro</li><li>Flow, Whisk, NotebookLM</li><li>2 ТБ и AI‑кредиты</li></ul>
+              <div class="product-footer"><strong>500 ₽</strong><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Уточнить →</a></div>
+            </article>
+          </div>
+        </section>
+
+        <div class="custom-service-card">
+          <div><span>Индивидуальная задача</span><h3>Telegram‑боты и автоматизация</h3><p>Согласуем состав работ, срок и стоимость до начала разработки.</p></div>
+          <a class="button button-primary" href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Описать задачу</a>
+        </div>
+        <div class="notice">
+          <b>Важно:</b> цены перенесены со скриншотов и могут измениться. Перед оплатой проверьте наличие и итоговую стоимость в профиле Avito или личной переписке. Сайт не принимает оплату и не оформляет заказ автоматически.
+        </div>
+      </div>
+    </section>
+
+    <section class="section seo-topics" aria-labelledby="seo-topics-title">
+      <div class="container">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">Подписки и сервисы</p><h2 id="seo-topics-title">Выберите решение под задачу</h2></div>
+          <p>Отдельные страницы помогут сравнить срок, цену и назначение каждого цифрового продукта до обращения к продавцу.</p>
+        </div>
+        <div class="seo-topic-grid">
+          <a href="/google-ai-pro/"><span>ИИ для работы и учёбы</span><h3>Google AI Pro и Gemini</h3><p>Варианты на 12 и 18 месяцев, связанные AI‑инструменты и цены.</p><b>Подробнее →</b></a>
+          <a href="/google-antigravity/"><span>Для разработчиков</span><h3>Google Antigravity 2.0</h3><p>AI‑ориентированная IDE и помощь с подключением Google Pro.</p><b>Подробнее →</b></a>
+          <a href="/notebooklm-pro/"><span>Документы и исследования</span><h3>NotebookLM Pro</h3><p>Подписка на 12 месяцев для работы с источниками и материалами.</p><b>Подробнее →</b></a>
+          <a href="/nano-banana-pro/"><span>Генерация изображений</span><h3>Nano Banana Pro</h3><p>Google Gemini, варианты доступа на 12 и 18 месяцев.</p><b>Подробнее →</b></a>
+          <a href="/google-storage/"><span>Облачное пространство</span><h3>Хранилище Google 5 ТБ</h3><p>Место для Google Диска, Фото и Gmail на 12 месяцев.</p><b>Подробнее →</b></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section section-soft">
+      <div class="container about-grid">
+        <div>
+          <p class="eyebrow">Как работаем</p>
+          <h2>Понятно на каждом шаге</h2>
+          <p class="section-text">TotalC0de объединяет каталог, техническую поддержку и сообщество о технологиях. Мы не обещаем невозможного и фиксируем условия до оплаты.</p>
+        </div>
+        <ol class="steps">
+          <li><span>01</span><div><h3>Вы выбираете</h3><p>Смотрите описание и цену в актуальном объявлении.</p></div></li>
+          <li><span>02</span><div><h3>Уточняем детали</h3><p>Отвечаем на вопросы и подтверждаем, подходит ли решение.</p></div></li>
+          <li><span>03</span><div><h3>Фиксируем условия</h3><p>Согласуем итоговую стоимость, состав, срок и способ передачи.</p></div></li>
+          <li><span>04</span><div><h3>Остаёмся на связи</h3><p>Помогаем с запуском и вопросами в пределах согласованной поддержки.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="reviews" class="section section-blue">
+      <div class="container">
+        <div class="section-heading review-heading">
+          <div>
+            <p class="eyebrow eyebrow-invert">Отзывы</p>
+            <h2>Что пишут<br>покупатели</h2>
+          </div>
+          <div class="review-heading-side">
+            <div class="review-overview"><strong>5,0</strong><div><span aria-hidden="true">★★★★★</span><small>98 + 213 отзывов в двух профилях</small></div></div>
+            <div class="carousel-controls">
+              <button type="button" data-carousel-prev aria-label="Предыдущий отзыв">←</button>
+              <button type="button" data-carousel-toggle aria-label="Приостановить автопрокрутку отзывов" aria-pressed="false">Ⅱ</button>
+              <button type="button" data-carousel-next aria-label="Следующий отзыв">→</button>
+            </div>
+          </div>
+        </div>
+        <div class="reviews-track" data-carousel aria-label="Отзывы покупателей" aria-live="off">
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-purple">А</span><div><b>Александр</b><small>27 июля · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Nano Banana Pro Google Gemini · 18 месяцев</div>
+            <blockquote>Всё чётко, написал продавцу — всё быстро сделали, теперь есть подписка на 18 месяцев, кайф. Спасибо.</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Профиль 2 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-teal">А</span><div><b>Анна</b><small>22 июля · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Nano Banana Pro Google Gemini · 18 месяцев</div>
+            <blockquote>Огромная благодарность, очень помогли, все возникшие вопросы решили по мере их поступления, очень тактично всё. Огромная благодарность!</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Профиль 2 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-blue">А</span><div><b>Анна</b><small>2 июня · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>NotebookLM Pro · 12 месяцев</div>
+            <blockquote>Обратилась к продавцу с вопросом, ответил очень быстро и реально помог ещё до покупки. По‑человечески разобрался в ситуации. Спасибо большое за такой подход, очень приятно! Рекомендую!</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Профиль 2 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-indigo">М</span><div><b>Мухаммад</b><small>28 мая · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Google AI Pro + Antigravity · 12 месяцев</div>
+            <blockquote>Оформил подписку через этого продавца, пользуюсь ей уже полгода или больше, я доволен. Есть поддержка, что придаёт надёжности приобретения услуг у данного продавца, рекомендую!</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Профиль 2 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-green">О</span><div><b>ТМ Оксана</b><small>13 мая · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>NotebookLM Pro · 12 месяцев</div>
+            <blockquote>Молодцы! Быстро и оперативно решили мой вопрос! Проконсультировали, как избежать неприятных ситуаций с аккаунтом в дальнейшем! Очень рекомендую!</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Профиль 2 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-amber">П</span><div><b>Правота</b><small>6 марта · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Google AI Pro + Antigravity · 12 месяцев</div>
+            <blockquote>Это просто находка среди кучи предложений — очень честные ребята. Оформляю подписку не первый раз, всегда на связи в ТГ, всё объясняют по полочкам. Рекомендую на 100%.</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/user/1e42a80c3ac620b1dc4616e424aa297c/profile" target="_blank" rel="noopener noreferrer">Профиль 2 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-navy">Н</span><div><b>Никита Моисеенко</b><small>16 июля · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Хранилище Google · 5 ТБ</div>
+            <blockquote>Всё максимально прозрачно. В начале отправили мне ключ, только после этого оплатил.</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Профиль 1 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-slate">E</span><div><b>Exact</b><small>14 июля · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Nano Banana Pro Google Gemini · 12 месяцев</div>
+            <blockquote>Отлично! Очень хороший продавец! Взял Gemini Pro подписку на год, всё работает семь месяцев!</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Профиль 1 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-rose">Р</span><div><b>Римма</b><small>24 июня · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Хранилище Google · 5 ТБ</div>
+            <blockquote>Продавец всё сделал быстро и качественно! За считаные минуты предоставил доступ в хранилище на 5 ТБ. Рекомендую к покупке!</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Профиль 1 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-pink">Р</span><div><b>Рамиль</b><small>22 июня · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Google Antigravity 2.0 / IDE Google Pro</div>
+            <blockquote>Всё отлично, быстро, удобно. Клиентоориентированность на высоте. Рекомендую.</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Профиль 1 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-violet">Ю</span><div><b>Юрий</b><small>3 июня · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Google Antigravity 2.0 / IDE Google Pro</div>
+            <blockquote>Хорошая цена, быстрая и вежливая коммуникация. Продавец крайне ответственный, качественная поддержка. Рекомендую.</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Профиль 1 ↗</a></div>
+          </article>
+          <article class="review-card">
+            <div class="review-card-top"><div class="review-person"><span class="review-avatar avatar-cyan">А</span><div><b>Артём Сергеевич</b><small>6 марта · Покупатель</small></div></div><img class="avito-logo avito-logo-review" src="/assets/avito-logo.svg" alt="Avito"></div>
+            <div class="review-score" aria-label="Оценка 5 из 5"><span aria-hidden="true">★★★★★</span><b>5,0</b></div>
+            <div class="review-product"><span>Товар</span>Nano Banana Pro Google Gemini · 12 месяцев</div>
+            <blockquote>Команда оперативно ответила и помогла с покупкой аккаунта, всё быстро и без головной боли. Даже через месяц помогли восстановить пароль, спасибо.</blockquote>
+            <div class="review-card-footer"><span>Сделка состоялась</span><a href="https://www.avito.ru/brands/aa498ca51c4c21f7c0ff52b954fb6410" target="_blank" rel="noopener noreferrer">Профиль 1 ↗</a></div>
+          </article>
+        </div>
+        <p class="reviews-note">Отзывы перенесены из предоставленных скриншотов Avito. Орфография и смысл сохранены, пунктуация местами нормализована.</p>
+      </div>
+    </section>
+
+    <section class="section community-section">
+      <div class="container community-grid">
+        <div class="community-copy">
+          <p class="eyebrow">Сообщество</p>
+          <h2>Следите за технологиями вместе с нами</h2>
+          <p>В Telegram публикуем новости ИИ и технологий, практические находки и обновления проекта. Во ВКонтакте можно написать боту, а по личным вопросам — связаться напрямую.</p>
+          <a class="button button-primary" href="/links/">Открыть все площадки</a>
+        </div>
+        <div class="social-stack">
+          <a href="https://t.me/TotalC0de" target="_blank" rel="noopener noreferrer"><img class="platform-icon-image social-icon" src="/assets/free-icon-telegram-2111646.png" alt=""><span>Telegram‑канал</span><b>@TotalC0de</b><i>→</i></a>
+          <a href="https://vk.com/totalc0de" target="_blank" rel="noopener noreferrer"><img class="platform-icon-image social-icon" src="/assets/free-icon-vk-5968835.png" alt=""><span>ВКонтакте</span><b>vk.com/totalc0de</b><i>→</i></a>
+          <a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer"><img class="platform-icon-image social-icon" src="/assets/free-icon-telegram-2111646.png" alt=""><span>Личные сообщения</span><b>@Privatnumber5</b><i>→</i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container cta-card">
+        <div><p class="eyebrow eyebrow-invert">Есть вопрос?</p><h2>Подскажем до покупки</h2><p>Напишите, что хотите получить. Ответим по наличию, цене и условиям.</p></div>
+        <a class="button button-white" href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand"><a class="brand" href="/"><img src="/assets/logo.jpg" alt="" width="44" height="44"><span>Total<span>C0de</span></span></a><p>Технологии, автоматизация и ИИ — с понятными условиями и поддержкой.</p></div>
+      <div><h2>Разделы</h2><a href="/#catalog">Каталог</a><a href="/#reviews">Отзывы</a><a href="/links/">Все ссылки</a></div>
+      <div><h2>Покупателям</h2><a href="/legal/terms/">Условия продажи</a><a href="/legal/returns/">Оплата и возврат</a><a href="/legal/">Правовая информация</a></div>
+      <div><h2>Контакты</h2><a href="https://t.me/Privatnumber5" target="_blank" rel="noopener noreferrer">Telegram: @Privatnumber5</a><a href="https://vk.com/totalc0de" target="_blank" rel="noopener noreferrer">ВКонтакте</a><a href="#" data-cookie-settings>Настройки аналитики</a></div>
+    </div>
+    <div class="container legal-line"><p>Самозанятый Кольцов Иван Максимович · ИНН 740706114854</p><p>© 2026 TotalC0de</p></div>
+  </footer>
+
+  <div class="cookie-banner" data-cookie-banner hidden>
+    <div><b>Аналитические файлы cookie</b><p>С вашего согласия мы подключаем Яндекс Метрику. Без согласия аналитика не загружается. <a href="/legal/privacy/">Подробнее</a></p></div>
+    <div class="cookie-actions"><button class="button button-secondary" type="button" data-cookie-reject>Только необходимые</button><button class="button button-primary" type="button" data-cookie-accept>Разрешить</button></div>
+  </div>
+  <script src="/assets/config.js"></script>
+  <script src="/assets/site.js"></script>
 </body>
 </html>

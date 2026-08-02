@@ -1,0 +1,10 @@
+{
+  "name": "TotalC0de",
+  "short_name": "TotalC0de",
+  "lang": "ru",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1268e8",
+  "icons": [{"src":"/assets/logo.jpg","sizes":"640x640","type":"image/jpeg"}]
+}
