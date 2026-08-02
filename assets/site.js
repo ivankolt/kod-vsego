@@ -1,7 +1,76 @@
 (function () {
   "use strict";
 
+  var themeKey = "totalcode_theme";
+  var root = document.documentElement;
+  var systemTheme = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+
+  function currentTheme() {
+    return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+
+  function savedTheme() {
+    try {
+      var value = localStorage.getItem(themeKey);
+      return value === "light" || value === "dark" ? value : "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function applyTheme(theme, remember) {
+    root.setAttribute("data-theme", theme);
+    root.style.colorScheme = theme;
+    if (remember) {
+      try { localStorage.setItem(themeKey, theme); } catch (error) { /* Preference storage may be blocked. */ }
+    }
+  }
+
+  if (!root.getAttribute("data-theme")) {
+    applyTheme(savedTheme() || (systemTheme && systemTheme.matches ? "dark" : "light"), false);
+  }
+
+  var themeButton = document.createElement("button");
+  themeButton.className = "theme-toggle";
+  themeButton.type = "button";
+  themeButton.setAttribute("aria-pressed", String(currentTheme() === "dark"));
+
+  function updateThemeButton() {
+    var dark = currentTheme() === "dark";
+    var label = dark ? "Включить светлую тему" : "Включить тёмную тему";
+    themeButton.innerHTML = '<span class="theme-toggle-icon" aria-hidden="true">' + (dark ? "☀" : "☾") + '</span><span class="theme-toggle-text">' + (dark ? "Светлая" : "Тёмная") + '</span>';
+    themeButton.setAttribute("aria-label", label);
+    themeButton.setAttribute("title", label);
+    themeButton.setAttribute("aria-pressed", String(dark));
+  }
+
+  updateThemeButton();
+  themeButton.addEventListener("click", function () {
+    applyTheme(currentTheme() === "dark" ? "light" : "dark", true);
+    updateThemeButton();
+  });
+
+  var headerInner = document.querySelector(".site-header .header-inner");
   var menuButton = document.querySelector(".menu-button");
+  if (headerInner) {
+    if (menuButton) headerInner.insertBefore(themeButton, menuButton);
+    else headerInner.appendChild(themeButton);
+  } else {
+    themeButton.classList.add("theme-toggle-floating");
+    document.body.appendChild(themeButton);
+  }
+
+  if (systemTheme) {
+    var followSystemTheme = function (event) {
+      if (!savedTheme()) {
+        applyTheme(event.matches ? "dark" : "light", false);
+        updateThemeButton();
+      }
+    };
+    if (systemTheme.addEventListener) systemTheme.addEventListener("change", followSystemTheme);
+    else if (systemTheme.addListener) systemTheme.addListener(followSystemTheme);
+  }
+
   var nav = document.querySelector(".main-nav");
   if (menuButton && nav) {
     menuButton.addEventListener("click", function () {
@@ -20,99 +89,120 @@
   var track = document.querySelector("[data-carousel]");
   var previous = document.querySelector("[data-carousel-prev]");
   var next = document.querySelector("[data-carousel-next]");
-  var toggle = document.querySelector("[data-carousel-toggle]");
   if (track && previous && next) {
-    var autoplayTimer = null;
-    var userPaused = false;
-    var interactionPaused = false;
+    var resumeTimer = null;
+    var temporarilyPaused = false;
+    var holdPaused = false;
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reviewPauseDelay = 2000;
+    var scrollSpeed = 115;
+    var lastFrameTime = 0;
+    var loopPoint = 0;
+    var originalCards = Array.prototype.slice.call(track.querySelectorAll(".review-card"));
+
+    originalCards.forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.classList.add("review-card-clone");
+      clone.setAttribute("aria-hidden", "true");
+      clone.querySelectorAll("a, button").forEach(function (control) {
+        control.setAttribute("tabindex", "-1");
+      });
+      track.appendChild(clone);
+    });
+
+    var updateLoopPoint = function () {
+      var firstOriginal = originalCards[0];
+      var firstClone = track.querySelector(".review-card-clone");
+      if (firstOriginal && firstClone) {
+        loopPoint = firstClone.offsetLeft - firstOriginal.offsetLeft;
+      }
+    };
+
+    updateLoopPoint();
+    window.addEventListener("resize", updateLoopPoint);
 
     var scrollCards = function (direction) {
       var card = track.querySelector(".review-card");
       var distance = card ? card.getBoundingClientRect().width + 20 : 360;
+      if (direction < 0 && loopPoint && track.scrollLeft < distance) {
+        track.scrollLeft += loopPoint;
+      }
       track.scrollBy({ left: direction * distance, behavior: "smooth" });
     };
 
-    var stopAutoplay = function () {
-      if (autoplayTimer) window.clearInterval(autoplayTimer);
-      autoplayTimer = null;
+    var clearResumeTimer = function () {
+      if (resumeTimer) window.clearTimeout(resumeTimer);
+      resumeTimer = null;
     };
 
-    var advanceCarousel = function () {
-      var end = track.scrollWidth - track.clientWidth;
-      if (track.scrollLeft >= end - 12) {
-        track.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        scrollCards(1);
-      }
+    var pauseTemporarily = function () {
+      temporarilyPaused = true;
+      clearResumeTimer();
+      resumeTimer = window.setTimeout(function () {
+        if (!holdPaused) temporarilyPaused = false;
+        resumeTimer = null;
+      }, reviewPauseDelay);
     };
 
-    var startAutoplay = function () {
-      stopAutoplay();
-      if (!userPaused && !interactionPaused && !reduceMotion && !document.hidden) {
-        autoplayTimer = window.setInterval(advanceCarousel, 5500);
-      }
+    var beginHoldPause = function () {
+      holdPaused = true;
+      temporarilyPaused = true;
+      clearResumeTimer();
     };
 
-    var restartAutoplay = function () {
-      stopAutoplay();
-      startAutoplay();
+    var endHoldPause = function () {
+      if (!holdPaused) return;
+      holdPaused = false;
+      pauseTemporarily();
     };
 
     previous.addEventListener("click", function () {
+      pauseTemporarily();
       scrollCards(-1);
-      restartAutoplay();
     });
     next.addEventListener("click", function () {
+      pauseTemporarily();
       scrollCards(1);
-      restartAutoplay();
     });
 
-    track.addEventListener("mouseenter", function () {
-      interactionPaused = true;
-      stopAutoplay();
-    });
-    track.addEventListener("mouseleave", function () {
-      interactionPaused = false;
-      startAutoplay();
-    });
-    track.addEventListener("focusin", function () {
-      interactionPaused = true;
-      stopAutoplay();
-    });
-    track.addEventListener("focusout", function () {
-      interactionPaused = false;
-      startAutoplay();
-    });
-    track.addEventListener("touchstart", function () {
-      interactionPaused = true;
-      stopAutoplay();
-    }, { passive: true });
-    track.addEventListener("touchend", function () {
-      interactionPaused = false;
-      startAutoplay();
-    }, { passive: true });
+    track.addEventListener("pointerdown", beginHoldPause);
+    window.addEventListener("pointerup", endHoldPause);
+    window.addEventListener("pointercancel", endHoldPause);
+    track.addEventListener("focusin", pauseTemporarily);
 
-    if (toggle) {
-      if (reduceMotion) {
-        userPaused = true;
-        toggle.textContent = "▶";
-        toggle.setAttribute("aria-pressed", "true");
-        toggle.setAttribute("aria-label", "Включить автопрокрутку отзывов");
+    var animateCarousel = function (timestamp) {
+      if (!lastFrameTime) lastFrameTime = timestamp;
+      var elapsed = Math.min(timestamp - lastFrameTime, 64);
+      lastFrameTime = timestamp;
+
+      if (!temporarilyPaused && !reduceMotion && !document.hidden && loopPoint > 0) {
+        track.scrollLeft += scrollSpeed * elapsed / 1000;
+        if (track.scrollLeft >= loopPoint) track.scrollLeft -= loopPoint;
       }
-      toggle.addEventListener("click", function () {
-        userPaused = !userPaused;
-        toggle.textContent = userPaused ? "▶" : "Ⅱ";
-        toggle.setAttribute("aria-pressed", String(userPaused));
-        toggle.setAttribute("aria-label", userPaused ? "Включить автопрокрутку отзывов" : "Приостановить автопрокрутку отзывов");
-        if (userPaused) stopAutoplay();
-        else startAutoplay();
-      });
-    }
 
-    document.addEventListener("visibilitychange", startAutoplay);
-    startAutoplay();
+      window.requestAnimationFrame(animateCarousel);
+    };
+
+    window.requestAnimationFrame(animateCarousel);
   }
+
+  var messageTemplate = document.querySelector("[data-message-template]");
+  var telegramTemplateLink = document.querySelector("[data-telegram-template]");
+
+  if (messageTemplate && telegramTemplateLink) {
+    var messageText = messageTemplate.textContent.replace(/^\s+/gm, "").trim();
+    telegramTemplateLink.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(messageText);
+  }
+
+  document.querySelectorAll("[data-product-inquiry]").forEach(function (link) {
+    var productName = link.getAttribute("data-product-inquiry");
+    if (!productName) return;
+    var productMessage = "Здравствуйте! Хочу уточнить наличие и итоговую стоимость.\n\n" +
+      "Товар: " + productName + "\n" +
+      "Аккаунт: [свой / нужен новый]\n\n" +
+      "Подскажите, пожалуйста, актуальные условия.";
+    link.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(productMessage);
+  });
 
   var consentKey = "totalcode_analytics_consent_v1";
   var banner = document.querySelector("[data-cookie-banner]");
@@ -174,6 +264,13 @@
   document.addEventListener("click", function (event) {
     var link = event.target.closest("a[href^='http']");
     if (!link || !window.ym || !validCounterId(config.yandexMetrikaId)) return;
+    var specificGoal = link.getAttribute("data-metrika-goal");
+    if (specificGoal) {
+      window.ym(Number(config.yandexMetrikaId), "reachGoal", specificGoal, {
+        product: link.getAttribute("data-product-inquiry") || "",
+        url: link.href
+      });
+    }
     window.ym(Number(config.yandexMetrikaId), "reachGoal", "external_click", { url: link.href });
   });
 })();
