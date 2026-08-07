@@ -447,7 +447,11 @@ html[data-theme="dark"] .product-page-hero { background: radial-gradient(circle 
 html[data-theme="dark"] .aside-card { background: #142842; border-color: #294968; }
 html[data-theme="dark"] .faq-list details { background: #101d2e; }
 html[data-theme="dark"] .site-footer { background: #050b13; }
-html[data-theme="dark"] .avito-logo { filter: brightness(1.08); }
+html[data-theme="dark"] .avito-logo,
+.portfolio-showcase .avito-logo,
+.dark-bg .avito-logo {
+  content: url('/assets/avito-logo-dark.svg');
+}
 
 @media (max-width: 980px) {
   .main-nav { gap: 16px; font-size: 13px; }
