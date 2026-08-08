@@ -344,6 +344,7 @@ h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
 .links-profile img { width: 108px; height: 108px; border-radius: 24px; box-shadow: var(--shadow); }
 .links-profile h1 { margin: 18px 0 8px; font-size: 44px; }
 .links-profile p { color: var(--muted); }
+.links-section-title { margin-top: 14px; margin-bottom: 2px; font-size: 13px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 .links-list { display: grid; gap: 12px; margin-top: 38px; }
 .link-tile { display: grid; grid-template-columns: 68px 1fr 30px; align-items: center; gap: 16px; padding: 17px; background: white; border: 1px solid var(--line); border-radius: 16px; text-decoration: none; box-shadow: 0 10px 26px rgba(29,65,113,.05); transition: .2s ease; }
 .link-tile:hover { transform: translateY(-2px); border-color: #adceff; }
