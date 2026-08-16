@@ -204,6 +204,18 @@
     link.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(productMessage);
   });
 
+  document.querySelectorAll("[data-service-inquiry]").forEach(function (link) {
+    var serviceName = link.getAttribute("data-service-inquiry");
+    if (!serviceName) return;
+    var serviceMessage = "Здравствуйте! Хочу обсудить проект.\n\n" +
+      "Услуга: " + serviceName + "\n" +
+      "Задача: [кратко опишите желаемый результат]\n" +
+      "Важные функции: [если уже известны]\n" +
+      "Желаемый срок: [если есть]\n\n" +
+      "Подскажите, пожалуйста, какие данные нужны для предварительной оценки.";
+    link.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(serviceMessage);
+  });
+
   var consentKey = "totalcode_analytics_consent_v1";
   var banner = document.querySelector("[data-cookie-banner]");
   if (!banner) {
@@ -268,6 +280,7 @@
     if (specificGoal) {
       window.ym(Number(config.yandexMetrikaId), "reachGoal", specificGoal, {
         product: link.getAttribute("data-product-inquiry") || "",
+        service: link.getAttribute("data-service-inquiry") || "",
         url: link.href
       });
     }
