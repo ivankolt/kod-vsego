@@ -86,6 +86,118 @@
     });
   }
 
+  var motionReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function enableCursorGlow() {
+    if (motionReduced || !window.matchMedia || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    var glow = document.createElement("div");
+    var glowFrame = 0;
+    var glowX = -400;
+    var glowY = -400;
+    glow.className = "cursor-glow";
+    glow.setAttribute("aria-hidden", "true");
+    document.body.appendChild(glow);
+
+    var paintGlow = function () {
+      glow.style.transform = "translate3d(" + (glowX - 150) + "px," + (glowY - 150) + "px,0)";
+      glowFrame = 0;
+    };
+
+    document.addEventListener("pointermove", function (event) {
+      glowX = event.clientX;
+      glowY = event.clientY;
+      glow.classList.add("is-visible");
+      if (!glowFrame) glowFrame = window.requestAnimationFrame(paintGlow);
+    }, { passive: true });
+
+    document.documentElement.addEventListener("mouseleave", function () {
+      glow.classList.remove("is-visible");
+    });
+    window.addEventListener("blur", function () {
+      glow.classList.remove("is-visible");
+    });
+  }
+
+  function enableScrollReveals() {
+    if (motionReduced || !("IntersectionObserver" in window)) return;
+
+    var revealSelector = [
+      ".section-heading", ".split-heading", ".catalog-group-heading", ".product-card",
+      ".custom-service-card", ".service-card", ".seo-topic-grid > a", ".portfolio-showcase",
+      ".portfolio-gallery-heading", ".portfolio-shot", ".about-grid > *", ".steps > li",
+      ".review-heading", ".reviews-carousel", ".faq-home-grid > *", ".community-grid > *",
+      ".social-stack > a", ".cta-card", ".page-hero .container", ".product-page-hero-grid > *",
+      ".content-card", ".aside-card", ".faq-list > details", ".related-links > a",
+      ".links-profile", ".link-tile", ".legal-card", ".legal-nav > a"
+    ].join(",");
+    var revealItems = Array.prototype.slice.call(document.querySelectorAll(revealSelector));
+    if (!revealItems.length) return;
+
+    root.classList.add("motion-ready");
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var item = entry.target;
+        var delay = Number(item.getAttribute("data-reveal-delay")) || 0;
+        item.classList.add("is-revealed");
+        revealObserver.unobserve(item);
+        window.setTimeout(function () {
+          item.classList.remove("reveal-item", "is-revealed");
+          item.removeAttribute("data-reveal-delay");
+          item.style.removeProperty("--reveal-delay");
+        }, 680 + delay);
+      });
+    }, { rootMargin: "0px 0px -7%", threshold: 0.08 });
+
+    revealItems.forEach(function (item) {
+      var siblings = item.parentElement ? Array.prototype.slice.call(item.parentElement.children) : [];
+      var siblingIndex = Math.max(0, siblings.indexOf(item));
+      var delay = Math.min(siblingIndex * 55, 220);
+      item.classList.add("reveal-item");
+      item.setAttribute("data-reveal-delay", String(delay));
+      item.style.setProperty("--reveal-delay", delay + "ms");
+      revealObserver.observe(item);
+    });
+  }
+
+  function enablePressEffects() {
+    var controlSelector = ".button, .nav-cta, .theme-toggle, .menu-button, .carousel-arrow";
+
+    var addPressEffect = function (control, clientX, clientY) {
+      var bounds = control.getBoundingClientRect();
+      var ripple = document.createElement("span");
+      ripple.className = "button-ripple";
+      ripple.style.left = (clientX - bounds.left) + "px";
+      ripple.style.top = (clientY - bounds.top) + "px";
+      control.classList.remove("is-pressed");
+      void control.offsetWidth;
+      control.classList.add("is-pressed");
+      control.appendChild(ripple);
+      ripple.addEventListener("animationend", function () { ripple.remove(); }, { once: true });
+      window.setTimeout(function () { control.classList.remove("is-pressed"); }, 220);
+    };
+
+    document.addEventListener("pointerdown", function (event) {
+      if (event.button !== 0) return;
+      var control = event.target.closest(controlSelector);
+      if (!control) return;
+      addPressEffect(control, event.clientX, event.clientY);
+    }, { passive: true });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      var control = event.target.closest(controlSelector);
+      if (!control || event.repeat) return;
+      var bounds = control.getBoundingClientRect();
+      addPressEffect(control, bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+    });
+  }
+
+  enableCursorGlow();
+  enableScrollReveals();
+  if (!motionReduced) enablePressEffects();
+
   var track = document.querySelector("[data-carousel]");
   var previous = document.querySelector("[data-carousel-prev]");
   var next = document.querySelector("[data-carousel-next]");
