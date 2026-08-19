@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /outputs/
+
+Host: totalcode.ru
 
 Sitemap: https://totalcode.ru/sitemap.xml

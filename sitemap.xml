@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://totalcode.ru/</loc><lastmod>2026-08-17</lastmod><priority>1.0</priority></url>
-  <url><loc>https://totalcode.ru/services/</loc><lastmod>2026-08-17</lastmod><priority>0.9</priority></url>
-  <url><loc>https://totalcode.ru/services/websites-chatbots/</loc><lastmod>2026-08-17</lastmod><priority>0.9</priority></url>
-  <url><loc>https://totalcode.ru/contacts/</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://totalcode.ru/links/</loc><lastmod>2026-08-17</lastmod><priority>0.7</priority></url>
-  <url><loc>https://totalcode.ru/google-ai-pro/</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://totalcode.ru/google-antigravity/</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://totalcode.ru/notebooklm-pro/</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://totalcode.ru/nano-banana-pro/</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://totalcode.ru/google-storage/</loc><lastmod>2026-08-17</lastmod><priority>0.8</priority></url>
-  <url><loc>https://totalcode.ru/legal/</loc><lastmod>2026-08-17</lastmod><priority>0.5</priority></url>
-  <url><loc>https://totalcode.ru/legal/privacy/</loc><lastmod>2026-08-17</lastmod><priority>0.4</priority></url>
-  <url><loc>https://totalcode.ru/legal/consent/</loc><lastmod>2026-08-17</lastmod><priority>0.4</priority></url>
-  <url><loc>https://totalcode.ru/legal/terms/</loc><lastmod>2026-08-17</lastmod><priority>0.5</priority></url>
-  <url><loc>https://totalcode.ru/legal/returns/</loc><lastmod>2026-08-17</lastmod><priority>0.5</priority></url>
+  <url><loc>https://totalcode.ru/</loc><lastmod>2026-08-19</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://totalcode.ru/services/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://totalcode.ru/services/websites-chatbots/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://totalcode.ru/contacts/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://totalcode.ru/links/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://totalcode.ru/google-ai-pro/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://totalcode.ru/google-antigravity/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://totalcode.ru/notebooklm-pro/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://totalcode.ru/nano-banana-pro/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://totalcode.ru/google-storage/</loc><lastmod>2026-08-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://totalcode.ru/legal/</loc><lastmod>2026-08-19</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://totalcode.ru/legal/privacy/</loc><lastmod>2026-08-19</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://totalcode.ru/legal/consent/</loc><lastmod>2026-08-19</lastmod><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://totalcode.ru/legal/terms/</loc><lastmod>2026-08-19</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://totalcode.ru/legal/returns/</loc><lastmod>2026-08-19</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
 </urlset>
