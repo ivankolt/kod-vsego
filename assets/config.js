@@ -1,4 +1,4 @@
-// Укажите числовой ID счетчика после создания счетчика для totalcode.ru.
+// Числовой ID счетчика Яндекс Метрики для totalcode.ru
 window.TOTAL_CODE_CONFIG = {
-  yandexMetrikaId: ""
+  yandexMetrikaId: "111755412"
 };

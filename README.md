@@ -23,7 +23,7 @@ SEO-структура, кластеры запросов и план работ
 
 ```js
 window.TOTAL_CODE_CONFIG = {
-  yandexMetrikaId: "12345678"
+  yandexMetrikaId: "111755412"
 };
 ```
 
