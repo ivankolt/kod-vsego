@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<yml_catalog date="2026-08-17 12:00">
+  <shop>
+    <name>TotalC0de — услуги разработки</name>
+    <company>Самозанятый Кольцов Иван Максимович</company>
+    <url>https://totalcode.ru/</url>
+    <currencies>
+      <currency id="RUR" rate="1"/>
+    </currencies>
+    <categories>
+      <category id="1">Исполнитель</category>
+      <category id="18" parentId="1">Компьютеры и IT</category>
+    </categories>
+    <sets>
+      <set id="sites-chatbots">
+        <name>Создание сайтов и чат-ботов под ключ</name>
+        <url>https://totalcode.ru/services/websites-chatbots/</url>
+      </set>
+    </sets>
+    <offers>
+      <offer id="TC-SERVICE-CONSULTATION" available="true">
+        <name>Кольцов Иван Максимович</name>
+        <url>https://totalcode.ru/services/websites-chatbots/</url>
+        <price>0</price>
+        <currencyId>RUR</currencyId>
+        <categoryId>18</categoryId>
+        <set-ids>sites-chatbots</set-ids>
+        <picture>https://totalcode.ru/assets/portfolio-ai-home.png</picture>
+        <description>Бесплатная первичная консультация и предварительная оценка проекта: сайт, лендинг, Telegram-бот, Mini App или автоматизация. Состав, срок и стоимость разработки согласуются до начала работ.</description>
+        <param name="Рейтинг">5</param>
+        <param name="Число отзывов">213</param>
+        <param name="Годы опыта">1</param>
+        <param name="Регион">Россия, Челябинская область, Магнитогорск</param>
+        <param name="Конверсия">1</param>
+        <param name="Ссылка на чат">https://t.me/Privatnumber5</param>
+        <param name="Ссылка на профиль исполнителя">https://totalcode.ru/services/websites-chatbots/</param>
+        <param name="Выполняется удаленно">true</param>
+        <param name="Исполнитель проверен">false</param>
+        <sales_notes>Бесплатны консультация и предварительная оценка. Разработка выполняется по индивидуальной смете.</sales_notes>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>
