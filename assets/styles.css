@@ -432,6 +432,16 @@ h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
 .link-tile b, .link-tile small { display: block; }
 .link-tile small { color: var(--muted); }
 .link-tile > span { color: var(--blue); font-size: 20px; }
+.link-tile-bot { position: relative; overflow: hidden; margin-bottom: 10px; color: #fff; background: radial-gradient(circle at 88% 10%, rgba(120,220,255,.36), transparent 32%), linear-gradient(135deg, #075bcf, #168ff5); border-color: transparent; box-shadow: 0 18px 36px rgba(18,104,232,.26); }
+.link-tile-bot::before { content: ""; position: absolute; inset: auto -10% -80% 35%; height: 150px; background: radial-gradient(ellipse, rgba(255,255,255,.18), transparent 68%); pointer-events: none; }
+.link-tile-bot:hover { color: #fff; border-color: transparent; box-shadow: 0 22px 42px rgba(18,104,232,.34); }
+.link-tile-bot > * { position: relative; z-index: 1; }
+.link-tile-bot-icon { display: grid; width: 52px; height: 52px; place-items: center; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.3); border-radius: 15px; }
+.link-tile-bot .link-tile-bot-icon img { width: 32px; height: 32px; border-radius: 0; }
+.link-tile-bot em { display: block; width: fit-content; margin-bottom: 4px; padding: 2px 7px; color: #dff3ff; background: rgba(0,44,113,.28); border: 1px solid rgba(255,255,255,.23); border-radius: 999px; font-size: 9px; font-style: normal; font-weight: 850; letter-spacing: .08em; line-height: 1.45; text-transform: uppercase; }
+.link-tile-bot b { font-size: 18px; }
+.link-tile-bot small { color: rgba(255,255,255,.88); }
+.link-tile-bot > span { color: #fff; }
 .network-note { margin: 28px 0 0; color: #748197; font-size: 11px; text-align: center; }
 .back-home { display: block; margin-top: 34px; text-align: center; color: var(--blue); font-weight: 750; text-decoration: none; }
 
@@ -682,6 +692,10 @@ html[data-theme="dark"] .avito-logo,
   .links-profile h1 { font-size: 38px; }
   .link-tile { grid-template-columns: 52px minmax(0, 1fr) 22px; gap: 12px; padding: 14px; }
   .link-tile img { width: 42px; height: 42px; }
+  .link-tile-bot { padding: 16px 14px; }
+  .link-tile-bot-icon { width: 46px; height: 46px; border-radius: 13px; }
+  .link-tile-bot .link-tile-bot-icon img { width: 29px; height: 29px; }
+  .link-tile-bot b { font-size: 16px; }
   .theme-toggle { width: 42px; padding-inline: 8px; }
   .theme-toggle-text { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   html[data-theme="dark"] .main-nav { background: #121f31; }
