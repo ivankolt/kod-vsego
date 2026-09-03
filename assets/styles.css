@@ -446,6 +446,9 @@ h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
 .link-tile-bot-max:hover { box-shadow: 0 22px 42px rgba(126,34,206,.36); }
 .link-tile-bot-max .link-tile-bot-icon { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); }
 .link-tile-bot-max em { background: rgba(88,28,135,.35); color: #f3e8ff; }
+.link-click-hint { display: inline-flex; align-items: center; gap: 5px; margin-top: 9px; padding: 4px 9px; color: #fff; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.3); border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .02em; animation: link-click-pulse 2.2s ease-in-out infinite; }
+@keyframes link-click-pulse { 0%, 100% { transform: translateY(0); box-shadow: 0 0 0 rgba(255,255,255,0); } 50% { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(255,255,255,.2); } }
+@media (prefers-reduced-motion: reduce) { .link-click-hint { animation: none; } }
 .network-note { margin: 28px 0 0; color: #748197; font-size: 11px; text-align: center; }
 .back-home { display: block; margin-top: 34px; text-align: center; color: var(--blue); font-weight: 750; text-decoration: none; }
 
