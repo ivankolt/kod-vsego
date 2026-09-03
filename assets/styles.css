@@ -426,9 +426,12 @@ h3 { font-size: 22px; line-height: 1.2; letter-spacing: -.025em; }
 .links-profile p { color: var(--muted); }
 .links-section-title { margin-top: 14px; margin-bottom: 2px; font-size: 13px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 .links-list { display: grid; gap: 12px; margin-top: 38px; }
-.featured-links { position: relative; display: grid; gap: 12px; padding: 26px 12px 12px; border: 2px solid #1268e8; border-radius: 24px; background: rgba(18,104,232,.06); }
-.featured-links-label { position: absolute; top: -19px; left: 24px; padding: 3px 14px; color: #1268e8; background: #f4f8ff; font-size: 22px; font-weight: 950; letter-spacing: .08em; line-height: 1.2; }
+.featured-links { position: relative; display: grid; gap: 12px; padding: 26px 12px 12px; border: 2px solid #1268e8; border-radius: 24px; background: rgba(18,104,232,.06); animation: featured-links-glow 3.8s ease-in-out infinite; }
+.featured-links-label { position: absolute; top: -19px; left: 24px; padding: 3px 14px; color: #1268e8; background: #f4f8ff; font-size: 22px; font-weight: 950; letter-spacing: .08em; line-height: 1.2; animation: featured-label-float 2.8s ease-in-out infinite; }
 .featured-links .link-tile-bot { margin-bottom: 0; }
+@keyframes featured-links-glow { 0%, 100% { box-shadow: 0 0 0 rgba(18,104,232,0); } 50% { box-shadow: 0 0 26px rgba(18,104,232,.24); } }
+@keyframes featured-label-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .featured-links, .featured-links-label { animation: none; } }
 .link-tile { display: grid; grid-template-columns: 68px 1fr 30px; align-items: center; gap: 16px; padding: 17px; background: white; border: 1px solid var(--line); border-radius: 16px; text-decoration: none; box-shadow: 0 10px 26px rgba(29,65,113,.05); transition: .2s ease; }
 .link-tile:hover { transform: translateY(-2px); border-color: #adceff; }
 .link-tile img { width: 48px; height: 48px; object-fit: contain; border-radius: 12px; }
