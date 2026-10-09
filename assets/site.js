@@ -316,7 +316,7 @@
 
   if (messageTemplate && telegramTemplateLink) {
     var messageText = messageTemplate.textContent.replace(/^\s+/gm, "").trim();
-    telegramTemplateLink.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(messageText);
+    telegramTemplateLink.href = "https://t.me/TotalCodeAdmin?text=" + encodeURIComponent(messageText);
   }
 
   document.querySelectorAll("[data-product-inquiry]").forEach(function (link) {
@@ -326,7 +326,7 @@
       "Товар: " + productName + "\n" +
       "Аккаунт: [свой / нужен новый]\n\n" +
       "Подскажите, пожалуйста, актуальные условия.";
-    link.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(productMessage);
+    link.href = "https://t.me/TotalCodeAdmin?text=" + encodeURIComponent(productMessage);
   });
 
   document.querySelectorAll("[data-service-inquiry]").forEach(function (link) {
@@ -338,7 +338,7 @@
       "Важные функции: [если уже известны]\n" +
       "Желаемый срок: [если есть]\n\n" +
       "Подскажите, пожалуйста, какие данные нужны для предварительной оценки.";
-    link.href = "https://t.me/Privatnumber5?text=" + encodeURIComponent(serviceMessage);
+    link.href = "https://t.me/TotalCodeAdmin?text=" + encodeURIComponent(serviceMessage);
   });
 
   var consentKey = "totalcode_analytics_consent_v1";
